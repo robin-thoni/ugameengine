@@ -2,6 +2,7 @@
 
 ui_*
 moc_*
+*.moc
 
 Makefile
 
@@ -9,3 +10,4 @@ Makefile
 *.so
 *.so.*
 TheGame/TheGame
+tests/tests
