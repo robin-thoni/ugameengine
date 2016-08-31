@@ -1,3 +1,9 @@
 *.pro.user
-*.o
+
 ui_*
+moc_*
+
+Makefile
+
+*.o
+TheGame/TheGame
