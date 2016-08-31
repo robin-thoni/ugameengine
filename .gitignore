@@ -6,4 +6,6 @@ moc_*
 Makefile
 
 *.o
+*.so
+*.so.*
 TheGame/TheGame

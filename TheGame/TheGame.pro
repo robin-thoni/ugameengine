@@ -22,3 +22,10 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 LIBS += -lGLU
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../UGameEngine/release/ -lUGameEngine
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../UGameEngine/debug/ -lUGameEngine
+else:unix: LIBS += -L$$OUT_PWD/../UGameEngine/ -lUGameEngine
+
+INCLUDEPATH += $$PWD/../UGameEngine
+DEPENDPATH += $$PWD/../UGameEngine

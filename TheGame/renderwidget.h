@@ -2,6 +2,7 @@
 #define RENDERWIDGET_H
 
 #include <QGLWidget>
+#include "ugameengine.h"
 
 class RenderWidget : public QGLWidget
 {
@@ -25,6 +26,8 @@ private:
     int angle;
 
     float _fov;
+
+    QSharedPointer<UGameEngine> _engine;
 
 };
 
