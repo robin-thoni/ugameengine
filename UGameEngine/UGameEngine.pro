@@ -11,10 +11,14 @@ TEMPLATE = lib
 
 DEFINES += UGAMEENGINE_LIBRARY
 
-SOURCES += ugameengine.cpp
+SOURCES += ugameengine.cpp \
+    ugeentity.cpp \
+    vector3d.cpp
 
 HEADERS += ugameengine.h\
-        ugameengine_global.h
+        ugameengine_global.h \
+    ugeentity.h \
+    vector3d.h
 
 unix {
     target.path = /usr/lib
