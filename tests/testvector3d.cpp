@@ -37,8 +37,16 @@ private slots:
     void mult();
     void multOp();
 
-
     void div();
+    void divOp();
+
+    void dotProduct1();
+    void dotProduct1Op();
+    void dotProduct2();
+    void dotProduct2Op();
+
+    void norm1();
+    void norm2();
 };
 
 void TestVector3D::gettersSetters1()
@@ -304,6 +312,56 @@ void TestVector3D::div()
     QCOMPARE(v.getX(), x / m);
     QCOMPARE(v.getY(), y / m);
     QCOMPARE(v.getZ(), z / m);
+}
+
+void TestVector3D::divOp()
+{
+    double x = 1.42, y = 2.0, z = 3.0, m = 2.0;
+    Vector3D v1(x, y, z);
+    Vector3D v = v1 / m;
+    QCOMPARE(v.getX(), x / m);
+    QCOMPARE(v.getY(), y / m);
+    QCOMPARE(v.getZ(), z / m);
+}
+
+void TestVector3D::dotProduct1()
+{
+    Vector3D v1(1.5, 2.0, 3.0);
+    Vector3D v2(42.0, 5.0, 7.0);
+    QCOMPARE(v1.dotProduct(v2), 94.0);
+}
+
+void TestVector3D::dotProduct1Op()
+{
+    Vector3D v1(1.5, 2.0, 3.0);
+    Vector3D v2(42.0, 5.0, 7.0);
+    QCOMPARE(v1 * v2, 94.0);
+}
+
+void TestVector3D::dotProduct2()
+{
+    Vector3D v1(20, 42, 10);
+    Vector3D v2(42.0, 5.0, 7.0);
+    QCOMPARE(v1.dotProduct(v2), 1120.0);
+}
+
+void TestVector3D::dotProduct2Op()
+{
+    Vector3D v1(20, 42, 10);
+    Vector3D v2(42.0, 5.0, 7.0);
+    QCOMPARE(v1 * v2, 1120.0);
+}
+
+void TestVector3D::norm1()
+{
+    Vector3D v(3, 4, 0);;
+    QCOMPARE(v.norm(), 5.0);
+}
+
+void TestVector3D::norm2()
+{
+    Vector3D v(0, 30, 40);;
+    QCOMPARE(v.norm(), 50.0);
 }
 
 QTEST_MAIN(TestVector3D)
