@@ -4,7 +4,7 @@
 class Vector3D
 {
 public:
-    Vector3D(double x = 0.0, double y = 0.0, double z = 0.0);
+    explicit Vector3D(double x = 0.0, double y = 0.0, double z = 0.0);
     Vector3D(const Vector3D& other);
 
     double getX() const;
@@ -18,9 +18,13 @@ public:
 
     bool isNull() const;
 
+    bool equal(const Vector3D& other) const;
+
+    Vector3D& add(double k);
     Vector3D& add(double x, double y, double z);
     Vector3D& add(const Vector3D& other);
 
+    Vector3D& sub(double k);
     Vector3D& sub(double x, double y, double z);
     Vector3D& sub(const Vector3D& other);
 
@@ -33,12 +37,30 @@ public:
 
     double norm() const;
 
+    Vector3D operator+();
+    Vector3D operator+(const double& k);
+    Vector3D operator+(const Vector3D& v2);
+
+    Vector3D operator-();
+    Vector3D operator-(const double& k);
+    Vector3D operator-(const Vector3D& v2);
+
+    Vector3D operator*(const double& k);
+    double operator*(const Vector3D& v2);
+
+    Vector3D operator/(const double& k);
+
+    bool operator==(const Vector3D& other);
+    bool operator!=(const Vector3D& other);
+
+    bool operator!();
+    operator bool();
+
 private:
     double _x;
     double _y;
     double _z;
 };
 
-Vector3D& operator+(const Vector3D& v1, const Vector3D& v2);
 
 #endif // VECTOR3D_H

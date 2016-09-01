@@ -51,6 +51,16 @@ bool Vector3D::isNull() const
     return _x == 0 && _y == 0 && _z == 0;
 }
 
+bool Vector3D::equal(const Vector3D &other) const
+{
+    return _x == other._x && _y == other._y && _z == other._z;
+}
+
+Vector3D &Vector3D::add(double k)
+{
+    return add(Vector3D(k, k, k));
+}
+
 Vector3D &Vector3D::add(double x, double y, double z)
 {
     return add(Vector3D(x, y, z));
@@ -62,6 +72,11 @@ Vector3D& Vector3D::add(const Vector3D &other)
     _y += other._y;
     _z += other._z;
     return *this;
+}
+
+Vector3D &Vector3D::sub(double k)
+{
+    return sub(Vector3D(k, k, k));
 }
 
 Vector3D &Vector3D::sub(double x, double y, double z)
@@ -108,8 +123,67 @@ double Vector3D::norm() const
     return sqrt((_x * _x) + (_y * _y) + (_z * _z));
 }
 
-
-Vector3D &operator+(const Vector3D &v1, const Vector3D &v2)
+Vector3D Vector3D::operator+()
 {
-    return Vector3D(v1).add(v2);
+    return *this;
+}
+
+Vector3D Vector3D::operator+(const double &k)
+{
+    return Vector3D(*this).add(k);
+}
+
+Vector3D Vector3D::operator+(const Vector3D &v2)
+{
+    return Vector3D(*this).add(v2);
+}
+
+Vector3D Vector3D::operator-()
+{
+    return Vector3D(-_x, -_y, -_z);
+}
+
+Vector3D Vector3D::operator-(const double &k)
+{
+    return Vector3D(*this).sub(k);
+}
+
+Vector3D Vector3D::operator-(const Vector3D &v2)
+{
+    return Vector3D(*this).sub(v2);
+}
+
+Vector3D Vector3D::operator*(const double &k)
+{
+    return Vector3D(*this).mult(k);
+}
+
+double Vector3D::operator*(const Vector3D &v2)
+{
+    return Vector3D(*this).dotProduct(v2);
+}
+
+Vector3D Vector3D::operator/(const double &k)
+{
+    return Vector3D(*this).div(k);
+}
+
+bool Vector3D::operator==(const Vector3D &other)
+{
+    return equal(other);
+}
+
+bool Vector3D::operator!=(const Vector3D &other)
+{
+    return !equal(other);
+}
+
+bool Vector3D::operator!()
+{
+    return isNull();
+}
+
+Vector3D::operator bool()
+{
+    return !isNull();
 }
