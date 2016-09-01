@@ -26,15 +26,8 @@ void RenderWidget::paintGL()
     _device->lookAt(Vector3D(radius * cos(rad), 5.0f, radius * sin(rad)),
                    Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
-//    device->preDraw();
-
-
-
-
 
     drawAxes();
-
-//    device->postDraw();
 }
 
 void RenderWidget::resizeGL(int width, int height)
