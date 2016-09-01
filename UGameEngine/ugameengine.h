@@ -1,13 +1,21 @@
 #ifndef UGAMEENGINE_H
 #define UGAMEENGINE_H
 
-#include "ugameengine_global.h"
+#include "abstractrenderdevice.h"
+#include "ugeentity.h"
 
-class UGAMEENGINESHARED_EXPORT UGameEngine
+class UGameEngine : public QObject
 {
-
+    Q_OBJECT
 public:
-    UGameEngine();
+    UGameEngine(AbstractRenderDevice* device);
+
+    void draw();
+
+protected:
+    QList<UGEEntity*> _entitites;
+
+    AbstractRenderDevice* _device;
 };
 
 #endif // UGAMEENGINE_H

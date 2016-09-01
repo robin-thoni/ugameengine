@@ -39,16 +39,23 @@ public:
 
     Vector3D operator+();
     Vector3D operator+(const double& k);
-    Vector3D operator+(const Vector3D& v2);
+    Vector3D& operator+=(const double& k);
+    Vector3D operator+(const Vector3D& other);
+    Vector3D& operator+=(const Vector3D& other);
 
     Vector3D operator-();
     Vector3D operator-(const double& k);
-    Vector3D operator-(const Vector3D& v2);
+    Vector3D& operator-=(const double& k);
+    Vector3D operator-(const Vector3D& other);
+    Vector3D& operator-=(const Vector3D& other);
 
     Vector3D operator*(const double& k);
-    double operator*(const Vector3D& v2);
+    Vector3D& operator*=(const double& k);
+    double operator*(const Vector3D& other);
+    Vector3D& operator*=(const Vector3D& other);
 
     Vector3D operator/(const double& k);
+    Vector3D& operator/=(const double& k);
 
     bool operator==(const Vector3D& other);
     bool operator!=(const Vector3D& other);

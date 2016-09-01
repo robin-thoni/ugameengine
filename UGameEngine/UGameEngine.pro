@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       += gui core
 
 TARGET = UGameEngine
 TEMPLATE = lib
@@ -13,12 +13,13 @@ DEFINES += UGAMEENGINE_LIBRARY
 
 SOURCES += ugameengine.cpp \
     ugeentity.cpp \
-    vector3d.cpp
+    vector3d.cpp \
+    abstractrenderdevice.cpp
 
 HEADERS += ugameengine.h\
-        ugameengine_global.h \
     ugeentity.h \
-    vector3d.h
+    vector3d.h \
+    abstractrenderdevice.h
 
 unix {
     target.path = /usr/lib

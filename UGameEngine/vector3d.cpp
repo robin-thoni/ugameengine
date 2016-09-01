@@ -133,9 +133,19 @@ Vector3D Vector3D::operator+(const double &k)
     return Vector3D(*this).add(k);
 }
 
-Vector3D Vector3D::operator+(const Vector3D &v2)
+Vector3D &Vector3D::operator+=(const double &k)
 {
-    return Vector3D(*this).add(v2);
+    return add(k);
+}
+
+Vector3D Vector3D::operator+(const Vector3D &other)
+{
+    return Vector3D(*this).add(other);
+}
+
+Vector3D &Vector3D::operator+=(const Vector3D &other)
+{
+    return add(other);
 }
 
 Vector3D Vector3D::operator-()
@@ -148,9 +158,19 @@ Vector3D Vector3D::operator-(const double &k)
     return Vector3D(*this).sub(k);
 }
 
-Vector3D Vector3D::operator-(const Vector3D &v2)
+Vector3D &Vector3D::operator-=(const double &k)
 {
-    return Vector3D(*this).sub(v2);
+    return sub(k);
+}
+
+Vector3D Vector3D::operator-(const Vector3D &other)
+{
+    return Vector3D(*this).sub(other);
+}
+
+Vector3D &Vector3D::operator-=(const Vector3D &other)
+{
+    return sub(other);
 }
 
 Vector3D Vector3D::operator*(const double &k)
@@ -158,14 +178,30 @@ Vector3D Vector3D::operator*(const double &k)
     return Vector3D(*this).mult(k);
 }
 
-double Vector3D::operator*(const Vector3D &v2)
+Vector3D &Vector3D::operator*=(const double &k)
 {
-    return Vector3D(*this).dotProduct(v2);
+    return mult(k);
+}
+
+double Vector3D::operator*(const Vector3D &other)
+{
+    return Vector3D(*this).dotProduct(other);
+}
+
+Vector3D &Vector3D::operator*=(const Vector3D &other)
+{
+    dotProduct(other);
+    return *this;
 }
 
 Vector3D Vector3D::operator/(const double &k)
 {
     return Vector3D(*this).div(k);
+}
+
+Vector3D &Vector3D::operator/=(const double &k)
+{
+    return div(k);
 }
 
 bool Vector3D::operator==(const Vector3D &other)

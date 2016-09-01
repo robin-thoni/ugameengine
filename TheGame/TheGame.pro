@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    renderwidget.cpp
+    renderwidget.cpp \
+    openglrenderdevice.cpp
 
 HEADERS  += mainwindow.h \
-    renderwidget.h
+    renderwidget.h \
+    openglrenderdevice.h
 
 FORMS    += mainwindow.ui
 

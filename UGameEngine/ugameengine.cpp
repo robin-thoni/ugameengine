@@ -1,6 +1,19 @@
 #include "ugameengine.h"
 
 
-UGameEngine::UGameEngine()
+UGameEngine::UGameEngine(AbstractRenderDevice* device)
+    : _device(device)
 {
+}
+
+void UGameEngine::draw()
+{
+    _device->preDraw();
+
+    for(int i = 0; i < _entitites.size(); ++i) {
+        UGEEntity* entity = _entitites[i];
+        entity->draw(_device);
+    }
+
+    _device->postDraw();
 }

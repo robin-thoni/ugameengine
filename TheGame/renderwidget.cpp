@@ -1,50 +1,45 @@
 #include "renderwidget.h"
-#include <GL/glu.h>
 #include <QTimer>
 #include <math.h>
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
   , angle(0)
-  , _fov(70)
 {
+    _device = new OpenGLRenderDevice(this);
+    _engine = new UGameEngine(_device);
 }
 
 void RenderWidget::initializeGL()
 {
     makeCurrent();
-    qglClearColor(Qt::gray);
+    _device->setClearColor(Qt::gray);
+    _device->initialize(70, width(), height());
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_MULTISAMPLE);
-
-    glMatrixMode(GL_PROJECTION);
-    gluPerspective(_fov, width()/height(), 0.1, 100.0);
-    glMatrixMode(GL_MODELVIEW);
     animate();
 }
 
 void RenderWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-
     float rad = (float)angle / 180.0 * M_PI;
     float radius = 5.0f;
+    _device->lookAt(Vector3D(radius * cos(rad), 5.0f, radius * sin(rad)),
+                   Vector3D(0.0f, 0.0f, 0.0f));
+    _engine->draw();
+//    device->preDraw();
 
-    gluLookAt(radius * cos(rad), 5.0f, radius * sin(rad),
-               0.0f, 0.0f, 0.0f,
-               0.0f, 1.0f, 0.0f);
+
+
+
 
     drawAxes();
+
+//    device->postDraw();
 }
 
 void RenderWidget::resizeGL(int width, int height)
 {
-    int side = qMin(width, height);
-    glViewport((width - side) / 2, (height - side) / 2, side, side);
+    _device->resize(width, height);
 }
 
 void RenderWidget::animate()

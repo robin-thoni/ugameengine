@@ -3,6 +3,7 @@
 
 #include <QGLWidget>
 #include "ugameengine.h"
+#include "openglrenderdevice.h"
 
 class RenderWidget : public QGLWidget
 {
@@ -23,11 +24,11 @@ public slots:
     void drawAxes();
 
 private:
+    OpenGLRenderDevice* _device;
+
     int angle;
 
-    float _fov;
-
-    QSharedPointer<UGameEngine> _engine;
+    UGameEngine* _engine;
 
 };
 
