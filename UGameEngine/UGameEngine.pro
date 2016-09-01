@@ -14,12 +14,14 @@ DEFINES += UGAMEENGINE_LIBRARY
 SOURCES += ugameengine.cpp \
     ugeentity.cpp \
     vector3d.cpp \
-    abstractrenderdevice.cpp
+    abstractrenderdevice.cpp \
+    colorvector3d.cpp
 
 HEADERS += ugameengine.h\
     ugeentity.h \
     vector3d.h \
-    abstractrenderdevice.h
+    abstractrenderdevice.h \
+    colorvector3d.h
 
 unix {
     target.path = /usr/lib

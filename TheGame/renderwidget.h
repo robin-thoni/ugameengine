@@ -2,6 +2,8 @@
 #define RENDERWIDGET_H
 
 #include <QGLWidget>
+#include <QMouseEvent>
+#include <QWheelEvent>
 #include "ugameengine.h"
 #include "openglrenderdevice.h"
 
@@ -16,11 +18,13 @@ protected:
     void paintGL();
     void resizeGL(int width, int height);
 
+    void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
+    void wheelEvent(QWheelEvent* event);
+
 signals:
 
 public slots:
-    void animate();
-
     void drawAxes();
 
 private:
@@ -29,6 +33,14 @@ private:
     int angle;
 
     UGameEngine* _engine;
+
+    QPoint _lastPoint;
+
+    float _radius;
+
+    float _phi;
+
+    float _theta;
 
 };
 

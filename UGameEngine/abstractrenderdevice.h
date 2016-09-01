@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QColor>
-#include "vector3d.h"
+#include "colorvector3d.h"
 
 class AbstractRenderDevice : public QObject
 {
@@ -37,6 +37,12 @@ public slots:
     virtual void preDraw() = 0;
 
     virtual void postDraw() = 0;
+
+    virtual void drawPoint(const ColorVector3D& point) = 0;
+
+    virtual void drawLine(const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0) = 0;
+
+    virtual void drawPolygon(const QList<ColorVector3D>& points) = 0;
 
 protected:
     QColor _clearColor;

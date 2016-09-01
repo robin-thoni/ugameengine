@@ -9,8 +9,8 @@ OpenGLRenderDevice::OpenGLRenderDevice(QObject *parent) :
 
 void OpenGLRenderDevice::initialize(int fov, int width, int height)
 {
-    glClearColor((GLfloat)_clearColor.red() / 255.0, (GLfloat)_clearColor.green() / 255.0,
-                      (GLfloat)_clearColor.blue() / 255.0, (GLfloat) _clearColor.alpha() / 255.0);
+    glClearColor(_clearColor.redF(), _clearColor.greenF(),
+                 _clearColor.blue(), _clearColor.alpha());
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -18,7 +18,7 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
     glEnable(GL_MULTISAMPLE);
 
     glMatrixMode(GL_PROJECTION);
-    gluPerspective(fov, width/height, 0.1, 100.0);
+    gluPerspective(fov, width / height, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -41,4 +41,36 @@ void OpenGLRenderDevice::preDraw()
 void OpenGLRenderDevice::postDraw()
 {
 
+}
+
+void OpenGLRenderDevice::drawVertex(const ColorVector3D &point)
+{
+    glColor4f(point.getColor().redF(), point.getColor().greenF(),
+                  point.getColor().blue(), point.getColor().alpha());
+    glVertex3d(point.getX(), point.getY(), point.getZ());
+}
+
+void OpenGLRenderDevice::drawPoint(const ColorVector3D &point)
+{
+    glBegin(GL_POINTS);
+    drawVertex(point);
+    glEnd();
+}
+
+void OpenGLRenderDevice::drawLine(const ColorVector3D &begin, const ColorVector3D &end, double width)
+{
+    glLineWidth(width);
+    glBegin(GL_LINES);
+    drawVertex(begin);
+    drawVertex(end);
+    glEnd();
+}
+
+void OpenGLRenderDevice::drawPolygon(const QList<ColorVector3D> &points)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < points.size(); ++i) {
+        drawVertex(points[i]);
+    }
+    glEnd();
 }

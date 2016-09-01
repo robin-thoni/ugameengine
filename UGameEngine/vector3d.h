@@ -6,6 +6,7 @@ class Vector3D
 public:
     explicit Vector3D(double x = 0.0, double y = 0.0, double z = 0.0);
     Vector3D(const Vector3D& other);
+    virtual ~Vector3D();
 
     double getX() const;
     Vector3D& setX(double x);

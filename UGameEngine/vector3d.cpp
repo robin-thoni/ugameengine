@@ -15,6 +15,10 @@ Vector3D::Vector3D(const Vector3D &other)
 {
 }
 
+Vector3D::~Vector3D()
+{
+}
+
 double Vector3D::getX() const
 {
     return _x;

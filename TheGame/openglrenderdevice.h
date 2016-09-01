@@ -9,6 +9,8 @@ class OpenGLRenderDevice : public AbstractRenderDevice
 public:
     explicit OpenGLRenderDevice(QObject *parent = 0);
 
+//    static float
+
 signals:
 
 public slots:
@@ -20,6 +22,14 @@ public slots:
     virtual void preDraw();
 
     virtual void postDraw();
+
+    virtual void drawVertex(const ColorVector3D& point);
+
+    virtual void drawPoint(const ColorVector3D& point);
+
+    virtual void drawLine(const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0);
+
+    virtual void drawPolygon(const QList<ColorVector3D>& points);
 
 };
 
