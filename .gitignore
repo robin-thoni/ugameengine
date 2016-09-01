@@ -3,6 +3,7 @@
 ui_*
 moc_*
 *.moc
+*.autosave
 
 Makefile
 
