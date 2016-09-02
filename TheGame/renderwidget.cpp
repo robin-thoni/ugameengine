@@ -1,4 +1,5 @@
 #include "renderwidget.h"
+#include <GL/glu.h>
 #include <QTimer>
 #include <math.h>
 #include <QDebug>
@@ -19,7 +20,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
     cube->move(Vector3D(0, 1, 0));
     _engine->addEntity(cube);
     _engine->addEntity(new UGEEntityAxes(_engine));
-    setMouseTracking(false);
+    setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 }
 
@@ -42,6 +43,7 @@ void RenderWidget::paintGL()
                 );
     _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
+//    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, wx, wy, wz));
 }
 
 void RenderWidget::resizeGL(int width, int height)
@@ -67,11 +69,23 @@ void RenderWidget::mousePressEvent(QMouseEvent *event)
 
 void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QPoint diff = event->pos() - _lastPoint;
+    if (event->buttons() & Qt::LeftButton) {
+        QPoint diff = event->pos() - _lastPoint;
 
-    rotate(-diff.x(), -diff.y());
+        rotate(-diff.x(), -diff.y());
 
-    _lastPoint = event->pos();
+        _lastPoint = event->pos();
+    }
+//    double modelMatrix[16];
+//    double projMatrix[16];
+//    GLint viewport[4];
+//    glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+//    glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
+//    glGetIntegerv(GL_VIEWPORT, viewport);
+
+//    gluUnProject(event->x(), height() - event->y(), 0, modelMatrix, projMatrix, viewport, &wx, &wy, &wz);
+//    qDebug() << event->pos() << wx << wy << wz;
+//    update();
 }
 
 void RenderWidget::wheelEvent(QWheelEvent *event)

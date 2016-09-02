@@ -49,6 +49,7 @@ private:
 
     bool _reverse;
 
+//    double wx,wy,wz;
 };
 
 #endif // RENDERWIDGET_H
