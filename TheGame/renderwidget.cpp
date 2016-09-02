@@ -9,10 +9,12 @@ RenderWidget::RenderWidget(QWidget *parent) :
   , _radius(5.0)
   , _phi(45)
   , _theta(45)
+  , _reverse(false)
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
     setMouseTracking(false);
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 void RenderWidget::initializeGL()
@@ -25,14 +27,14 @@ void RenderWidget::initializeGL()
 
 void RenderWidget::paintGL()
 {
-    float theta = _theta / 180.0 * M_PI;
+    float theta = fabs(_theta / 180.0 * M_PI);
     float phi = _phi / 180.0 * M_PI;
-    _device->lookAt(Vector3D(
-                        _radius * sin(theta) * sin(phi),
-                        _radius * cos(theta),
-                        _radius * sin(theta) * cos(phi)
-                        ),
-                   Vector3D(0.0f, 0.0f, 0.0f));
+    Vector3D center = Vector3D(
+                _radius * sin(theta) * sin(phi),
+                _radius * cos(theta),
+                _radius * sin(theta) * cos(phi)
+                );
+    _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
 
     drawAxes();
@@ -41,6 +43,17 @@ void RenderWidget::paintGL()
 void RenderWidget::resizeGL(int width, int height)
 {
     _device->resize(width, height);
+}
+
+float RenderWidget::normalizeAngle(float angle)
+{
+    while (angle >= 360.0) {
+        angle -= 360.0;
+    }
+    while (angle < 0.0) {
+        angle += 360.0;
+    }
+    return angle;
 }
 
 void RenderWidget::mousePressEvent(QMouseEvent *event)
@@ -52,18 +65,45 @@ void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 {
     QPoint diff = event->pos() - _lastPoint;
 
-    _phi -= diff.x();
-    _theta -= diff.y();
-
-    qDebug() << _phi << _theta;
+    rotate(-diff.x(), -diff.y());
 
     _lastPoint = event->pos();
-    update();
 }
 
 void RenderWidget::wheelEvent(QWheelEvent *event)
 {
     _radius = qMax(2.0, _radius - event->delta() / 20.0);
+    update();
+}
+
+void RenderWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Up) {
+        rotate(0.0, 1.0);
+    }
+    else if (event->key() == Qt::Key_Down) {
+        rotate(0.0, -1.0);
+    }
+    else if (event->key() == Qt::Key_Left) {
+        rotate(1.0, 0.0);
+    }
+    else if (event->key() == Qt::Key_Right) {
+        rotate(-1.0, 0.0);
+    }
+}
+
+void RenderWidget::rotate(float phi, float theta)
+{
+    _phi = normalizeAngle(_phi + phi);
+    if (_theta + theta >= 180.0) {
+        theta = 179.0;
+    }
+    else if (_theta + theta < 1.0) {
+        theta = 1.0;
+    }
+    else {
+        _theta = normalizeAngle(_theta + theta);
+    }
     update();
 }
 

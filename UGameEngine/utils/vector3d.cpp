@@ -227,3 +227,9 @@ Vector3D::operator bool()
 {
     return !isNull();
 }
+
+
+QDebug operator<<(QDebug dbg, const Vector3D &v)
+{
+    return dbg.nospace() << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
+}

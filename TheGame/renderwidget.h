@@ -4,6 +4,7 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QKeyEvent>
 #include "engine/ugameengine.h"
 #include "openglrenderdevice.h"
 
@@ -18,9 +19,14 @@ protected:
     void paintGL();
     void resizeGL(int width, int height);
 
+    float normalizeAngle(float angle);
+
     void mousePressEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void wheelEvent(QWheelEvent* event);
+    void keyPressEvent(QKeyEvent* event);
+
+    void rotate(float phi, float theta);
 
 signals:
 
@@ -41,6 +47,8 @@ private:
     float _phi;
 
     float _theta;
+
+    bool _reverse;
 
 };
 

@@ -1,6 +1,8 @@
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
 
+#include <QDebug>
+
 class Vector3D
 {
 public:
@@ -70,5 +72,6 @@ private:
     double _z;
 };
 
+QDebug operator<<(QDebug dbg, const Vector3D& v);
 
 #endif // VECTOR3D_H
