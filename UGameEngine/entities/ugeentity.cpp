@@ -91,7 +91,7 @@ void UGEEntity::hide()
 
 Vector3D UGEEntity::getRealPoint(const Vector3D &pos)
 {
-    return pos;
+    return pos + _position;
 }
 
 ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
