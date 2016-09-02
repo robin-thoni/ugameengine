@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <math.h>
 #include <QDebug>
+#include "entities/ugeentitycube.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -13,6 +14,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
+    _engine->addEntity(new UGEEntityCube(_engine));
     setMouseTracking(false);
     setFocusPolicy(Qt::StrongFocus);
 }

@@ -13,6 +13,9 @@ public:
 
     void draw();
 
+public slots:
+    void addEntity(UGEEntity* entity);
+
 protected:
     QList<UGEEntity*> _entitites;
 

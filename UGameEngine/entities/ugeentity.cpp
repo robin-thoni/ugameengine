@@ -89,3 +89,30 @@ void UGEEntity::hide()
     _visible = false;
 }
 
+Vector3D UGEEntity::getRealPoint(const Vector3D &pos)
+{
+    return pos;
+}
+
+ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
+{
+    return ColorVector3D(pos.getColor(), getRealPoint((Vector3D)pos));
+}
+
+void UGEEntity::drawPoint(AbstractRenderDevice *device, const ColorVector3D &point)
+{
+    device->drawPoint(getRealPoint(point));
+}
+
+void UGEEntity::drawLine(AbstractRenderDevice *device, const ColorVector3D &begin, const ColorVector3D &end, double width)
+{
+    device->drawLine(getRealPoint(begin), getRealPoint(end), width);
+}
+
+void UGEEntity::drawPolygon(AbstractRenderDevice *device, QList<ColorVector3D> points)
+{
+    for (int i = 0; i < points.size(); ++i) {
+        points[i] = getRealPoint(points[i]);
+    }
+    device->drawPolygon(points);
+}

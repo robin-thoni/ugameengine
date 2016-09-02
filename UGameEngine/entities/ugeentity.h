@@ -35,6 +35,15 @@ public:
     void show();
     void hide();
 
+    Vector3D getRealPoint(const Vector3D& pos);
+    ColorVector3D getRealPoint(const ColorVector3D& pos);
+
+    virtual void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
+
+    virtual void drawLine(AbstractRenderDevice* device, const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0);
+
+    virtual void drawPolygon(AbstractRenderDevice* device, QList<ColorVector3D> points);
+
     virtual void draw(AbstractRenderDevice* device) = 0;
 
 private:
