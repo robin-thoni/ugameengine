@@ -14,7 +14,9 @@ RenderWidget::RenderWidget(QWidget *parent) :
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
-    _engine->addEntity(new UGEEntityCube(_engine));
+    UGEEntityCube* cube = new UGEEntityCube(_engine);
+    cube->move(Vector3D(0, 1, 0));
+    _engine->addEntity(cube);
     setMouseTracking(false);
     setFocusPolicy(Qt::StrongFocus);
 }
