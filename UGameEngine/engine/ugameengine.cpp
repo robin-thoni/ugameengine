@@ -6,6 +6,10 @@ UGameEngine::UGameEngine(AbstractRenderDevice* device)
 {
 }
 
+UGameEngine::~UGameEngine()
+{
+}
+
 void UGameEngine::draw()
 {
     _device->preDraw();

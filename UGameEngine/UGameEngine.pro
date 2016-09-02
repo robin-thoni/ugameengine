@@ -11,17 +11,17 @@ TEMPLATE = lib
 
 DEFINES += UGAMEENGINE_LIBRARY
 
-SOURCES += ugameengine.cpp \
-    ugeentity.cpp \
-    vector3d.cpp \
-    abstractrenderdevice.cpp \
-    colorvector3d.cpp
+SOURCES += engine/ugameengine.cpp \
+    engine/abstractrenderdevice.cpp \
+    entities/ugeentity.cpp \
+    utils/vector3d.cpp \
+    utils/colorvector3d.cpp
 
-HEADERS += ugameengine.h\
-    ugeentity.h \
-    vector3d.h \
-    abstractrenderdevice.h \
-    colorvector3d.h
+HEADERS += engine/ugameengine.h\
+    engine/abstractrenderdevice.h \
+    entities/ugeentity.h \
+    utils/vector3d.h \
+    utils/colorvector3d.h
 
 unix {
     target.path = /usr/lib

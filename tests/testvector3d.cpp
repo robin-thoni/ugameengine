@@ -1,5 +1,5 @@
 #include <QtTest/QtTest>
-#include "vector3d.h"
+#include "utils/vector3d.h"
 
 class TestVector3D : public QObject
 {

@@ -18,6 +18,10 @@ ColorVector3D::ColorVector3D(const ColorVector3D &other)
 {
 }
 
+ColorVector3D::~ColorVector3D()
+{
+}
+
 QColor ColorVector3D::getColor() const
 {
     return _color;

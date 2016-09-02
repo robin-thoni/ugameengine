@@ -1,7 +1,12 @@
 #include "ugeentity.h"
 
-UGEEntity::UGEEntity(QObject *parent) :
-    QObject(parent)
+UGEEntity::UGEEntity(QObject *parent)
+    : QObject(parent)
+    , _visible(true)
+{
+}
+
+UGEEntity::~UGEEntity()
 {
 }
 
@@ -64,3 +69,23 @@ void UGEEntity::scale(const Vector3D &scale)
 {
     _scale += scale;
 }
+bool UGEEntity::isVisible() const
+{
+    return _visible;
+}
+
+void UGEEntity::setVisible(bool visible)
+{
+    _visible = visible;
+}
+
+void UGEEntity::show()
+{
+    _visible = true;
+}
+
+void UGEEntity::hide()
+{
+    _visible = false;
+}
+

@@ -2,13 +2,14 @@
 #define UGAMEENGINE_H
 
 #include "abstractrenderdevice.h"
-#include "ugeentity.h"
+#include "entities/ugeentity.h"
 
 class UGameEngine : public QObject
 {
     Q_OBJECT
 public:
     UGameEngine(AbstractRenderDevice* device);
+    virtual ~UGameEngine();
 
     void draw();
 

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QColor>
-#include "colorvector3d.h"
+#include "utils/colorvector3d.h"
 
 class AbstractRenderDevice : public QObject
 {

@@ -1,15 +1,13 @@
 #ifndef OPENGLRENDERDEVICE_H
 #define OPENGLRENDERDEVICE_H
 
-#include "abstractrenderdevice.h"
+#include "engine/abstractrenderdevice.h"
 
 class OpenGLRenderDevice : public AbstractRenderDevice
 {
     Q_OBJECT
 public:
     explicit OpenGLRenderDevice(QObject *parent = 0);
-
-//    static float
 
 signals:
 

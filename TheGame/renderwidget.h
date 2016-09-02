@@ -4,7 +4,7 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include "ugameengine.h"
+#include "engine/ugameengine.h"
 #include "openglrenderdevice.h"
 
 class RenderWidget : public QGLWidget
