@@ -127,12 +127,12 @@ double Vector3D::norm() const
     return sqrt((_x * _x) + (_y * _y) + (_z * _z));
 }
 
-Vector3D Vector3D::operator+()
+Vector3D Vector3D::operator+() const
 {
     return *this;
 }
 
-Vector3D Vector3D::operator+(const double &k)
+Vector3D Vector3D::operator+(const double &k) const
 {
     return Vector3D(*this).add(k);
 }
@@ -142,7 +142,7 @@ Vector3D &Vector3D::operator+=(const double &k)
     return add(k);
 }
 
-Vector3D Vector3D::operator+(const Vector3D &other)
+Vector3D Vector3D::operator+(const Vector3D &other) const
 {
     return Vector3D(*this).add(other);
 }
@@ -152,12 +152,12 @@ Vector3D &Vector3D::operator+=(const Vector3D &other)
     return add(other);
 }
 
-Vector3D Vector3D::operator-()
+Vector3D Vector3D::operator-() const
 {
     return Vector3D(-_x, -_y, -_z);
 }
 
-Vector3D Vector3D::operator-(const double &k)
+Vector3D Vector3D::operator-(const double &k) const
 {
     return Vector3D(*this).sub(k);
 }
@@ -167,7 +167,7 @@ Vector3D &Vector3D::operator-=(const double &k)
     return sub(k);
 }
 
-Vector3D Vector3D::operator-(const Vector3D &other)
+Vector3D Vector3D::operator-(const Vector3D &other) const
 {
     return Vector3D(*this).sub(other);
 }
@@ -177,7 +177,7 @@ Vector3D &Vector3D::operator-=(const Vector3D &other)
     return sub(other);
 }
 
-Vector3D Vector3D::operator*(const double &k)
+Vector3D Vector3D::operator*(const double &k) const
 {
     return Vector3D(*this).mult(k);
 }
@@ -187,7 +187,7 @@ Vector3D &Vector3D::operator*=(const double &k)
     return mult(k);
 }
 
-double Vector3D::operator*(const Vector3D &other)
+double Vector3D::operator*(const Vector3D &other) const
 {
     return Vector3D(*this).dotProduct(other);
 }
@@ -198,7 +198,7 @@ Vector3D &Vector3D::operator*=(const Vector3D &other)
     return *this;
 }
 
-Vector3D Vector3D::operator/(const double &k)
+Vector3D Vector3D::operator/(const double &k) const
 {
     return Vector3D(*this).div(k);
 }
@@ -208,22 +208,22 @@ Vector3D &Vector3D::operator/=(const double &k)
     return div(k);
 }
 
-bool Vector3D::operator==(const Vector3D &other)
+bool Vector3D::operator==(const Vector3D &other) const
 {
     return equal(other);
 }
 
-bool Vector3D::operator!=(const Vector3D &other)
+bool Vector3D::operator!=(const Vector3D &other) const
 {
     return !equal(other);
 }
 
-bool Vector3D::operator!()
+bool Vector3D::operator!() const
 {
     return isNull();
 }
 
-Vector3D::operator bool()
+Vector3D::operator bool() const
 {
     return !isNull();
 }

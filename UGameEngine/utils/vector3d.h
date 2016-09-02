@@ -40,31 +40,31 @@ public:
 
     double norm() const;
 
-    Vector3D operator+();
-    Vector3D operator+(const double& k);
+    Vector3D operator+() const;
+    Vector3D operator+(const double& k) const;
     Vector3D& operator+=(const double& k);
-    Vector3D operator+(const Vector3D& other);
+    Vector3D operator+(const Vector3D& other) const;
     Vector3D& operator+=(const Vector3D& other);
 
-    Vector3D operator-();
-    Vector3D operator-(const double& k);
+    Vector3D operator-() const;
+    Vector3D operator-(const double& k) const;
     Vector3D& operator-=(const double& k);
-    Vector3D operator-(const Vector3D& other);
+    Vector3D operator-(const Vector3D& other) const;
     Vector3D& operator-=(const Vector3D& other);
 
-    Vector3D operator*(const double& k);
+    Vector3D operator*(const double& k) const;
     Vector3D& operator*=(const double& k);
-    double operator*(const Vector3D& other);
+    double operator*(const Vector3D& other) const;
     Vector3D& operator*=(const Vector3D& other);
 
-    Vector3D operator/(const double& k);
+    Vector3D operator/(const double& k) const;
     Vector3D& operator/=(const double& k);
 
-    bool operator==(const Vector3D& other);
-    bool operator!=(const Vector3D& other);
+    bool operator==(const Vector3D& other) const;
+    bool operator!=(const Vector3D& other) const;
 
-    bool operator!();
-    operator bool();
+    bool operator!() const;
+    operator bool() const;
 
 private:
     double _x;
