@@ -3,6 +3,7 @@
 #include <math.h>
 #include <QDebug>
 #include "entities/ugeentitycube.h"
+#include "entities/ugeentityaxes.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -17,6 +18,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
     UGEEntityCube* cube = new UGEEntityCube(_engine);
     cube->move(Vector3D(0, 1, 0));
     _engine->addEntity(cube);
+    _engine->addEntity(new UGEEntityAxes(_engine));
     setMouseTracking(false);
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -40,8 +42,6 @@ void RenderWidget::paintGL()
                 );
     _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
-
-    drawAxes();
 }
 
 void RenderWidget::resizeGL(int width, int height)
@@ -109,14 +109,4 @@ void RenderWidget::rotate(float phi, float theta)
         _theta = normalizeAngle(_theta + theta);
     }
     update();
-}
-
-void RenderWidget::drawAxes()
-{
-    _device->drawLine(ColorVector3D(Qt::red, 0.0, 0.0, 0.0), ColorVector3D(Qt::red, 1.0, 0.0, 0.0), 2.5);
-    _device->drawLine(ColorVector3D(Qt::green, 0.0, 0.0, 0.0), ColorVector3D(Qt::green, 0.0, 1.0, 0.0), 2.5);
-    _device->drawLine(ColorVector3D(Qt::blue, 0.0, 0.0, 0.0), ColorVector3D(Qt::blue, 0.0, 0.0, 1.0), 2.5);
-
-    _device->drawPolygon(QList<ColorVector3D>() << ColorVector3D(Qt::red, 0, 0, 0) << ColorVector3D(Qt::green, 1, 0, 0) << ColorVector3D(Qt::transparent, 1, 1, 0) << ColorVector3D(Qt::blue, 0, 1, 0));
-
 }

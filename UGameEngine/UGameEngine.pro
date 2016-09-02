@@ -16,14 +16,16 @@ SOURCES += engine/ugameengine.cpp \
     entities/ugeentity.cpp \
     utils/vector3d.cpp \
     utils/colorvector3d.cpp \
-    entities/ugeentitycube.cpp
+    entities/ugeentitycube.cpp \
+    entities/ugeentityaxes.cpp
 
 HEADERS += engine/ugameengine.h\
     engine/abstractrenderdevice.h \
     entities/ugeentity.h \
     utils/vector3d.h \
     utils/colorvector3d.h \
-    entities/ugeentitycube.h
+    entities/ugeentitycube.h \
+    entities/ugeentityaxes.h
 
 unix {
     target.path = /usr/lib

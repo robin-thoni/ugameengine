@@ -31,7 +31,6 @@ protected:
 signals:
 
 public slots:
-    void drawAxes();
 
 private:
     OpenGLRenderDevice* _device;
