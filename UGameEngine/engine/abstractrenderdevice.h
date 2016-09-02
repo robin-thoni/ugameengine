@@ -23,6 +23,10 @@ public:
 
     QColor getClearColor() const;
 
+    virtual Vector3D get2DFrom3D(const Vector3D& pos) = 0;
+
+    virtual Vector3D get3DFrom2D(int x, int y) = 0;
+
 public slots:
     virtual void setClearColor(const QColor &getClearColor);
 

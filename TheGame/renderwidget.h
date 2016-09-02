@@ -33,9 +33,7 @@ signals:
 public slots:
 
 private:
-    OpenGLRenderDevice* _device;
-
-    int angle;
+    AbstractRenderDevice* _device;
 
     UGameEngine* _engine;
 
@@ -47,9 +45,7 @@ private:
 
     float _theta;
 
-    bool _reverse;
-
-//    double wx,wy,wz;
+    Vector3D pos;
 };
 
 #endif // RENDERWIDGET_H

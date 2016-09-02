@@ -8,11 +8,9 @@
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
-  , angle(0)
   , _radius(5.0)
   , _phi(45)
   , _theta(45)
-  , _reverse(false)
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
@@ -43,7 +41,8 @@ void RenderWidget::paintGL()
                 );
     _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
-//    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, wx, wy, wz));
+    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, pos));
+    _device->drawPoint(ColorVector3D(Qt::magenta, 0.5, 0.5, 0.5));
 }
 
 void RenderWidget::resizeGL(int width, int height)
@@ -76,21 +75,18 @@ void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 
         _lastPoint = event->pos();
     }
-//    double modelMatrix[16];
-//    double projMatrix[16];
-//    GLint viewport[4];
-//    glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
-//    glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
-//    glGetIntegerv(GL_VIEWPORT, viewport);
 
-//    gluUnProject(event->x(), height() - event->y(), 0, modelMatrix, projMatrix, viewport, &wx, &wy, &wz);
-//    qDebug() << event->pos() << wx << wy << wz;
-//    update();
+    Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
+    dd.setY(height() - dd.getY());
+    qDebug() << event->pos() << dd;
+    pos = _device->get3DFrom2D(event->x(), height() - event->y());
+
+    update();
 }
 
 void RenderWidget::wheelEvent(QWheelEvent *event)
 {
-    _radius = qMax(2.0, _radius - event->delta() / 20.0);
+    _radius = qMax(2.0, _radius - event->delta() / 30.0);
     update();
 }
 
