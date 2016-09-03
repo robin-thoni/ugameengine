@@ -6,6 +6,7 @@
 #include "entities/ugeentitycube.h"
 #include "entities/ugeentityaxes.h"
 #include "utils/wavefrontobj.h"
+#include "entities/ugeentitywavefrontobj.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -22,9 +23,12 @@ RenderWidget::RenderWidget(QWidget *parent) :
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
+    WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
+    qDebug() << wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
 
-    WaveFrontObj obj;
-    qDebug() << obj.openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
+    UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
+    _engine->addEntity(obj);
+
 }
 
 void RenderWidget::initializeGL()

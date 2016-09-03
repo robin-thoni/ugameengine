@@ -11,22 +11,23 @@ class WaveFrontObj : public QObject
 public:
     explicit WaveFrontObj(QObject *parent = 0);
 
+    QList<QList<int> > getFaces() const;
+    QList<Vector3D> getVertexes() const;
+
 signals:
 
 public slots:
     bool openFile(const QString& filename);
     bool load(QIODevice& device);
+    void addFace(QList<int> face);
+    void addVertex(const Vector3D& vertex);
+    void setError(const QString& error);
 
 private:
     QString _error;
-
-};
-
-struct WaveFrontObjData
-{
     QList<Vector3D> _vertexes;
     QList<QList<int> > _faces;
-    QString _error;
+
 };
 
 #endif // WAVEFRONTOBJ_H

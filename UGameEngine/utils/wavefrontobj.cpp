@@ -9,6 +9,16 @@ WaveFrontObj::WaveFrontObj(QObject *parent) :
 {
 }
 
+QList<QList<int> > WaveFrontObj::getFaces() const
+{
+    return _faces;
+}
+
+QList<Vector3D> WaveFrontObj::getVertexes() const
+{
+    return _vertexes;
+}
+
 bool WaveFrontObj::openFile(const QString &filename)
 {
     QFile f(filename);
@@ -27,16 +37,30 @@ bool WaveFrontObj::load(QIODevice &device)
     QString file = device.readAll();
 
     YY_BUFFER_STATE bufferState = wavefront_obj_scan_string(file.toUtf8().constData());
-    WaveFrontObjData data;
-    int res = wavefront_objparse(&data);
+
+    int res = wavefront_objparse(this);
     wavefront_obj_delete_buffer(bufferState);
     if (res) {
-        _error = "Parse error: " + data._error;
         qDebug() << _error;
     }
     else {
-        qDebug() << "faces:" << data._faces.size() << "vertexes" << data._vertexes.size();
+        qDebug() << "faces:" << _faces.size() << "vertexes" << _vertexes.size();
     }
 
     return res == 0;
+}
+
+void WaveFrontObj::addFace(QList<int> face)
+{
+    _faces.append(face);
+}
+
+void WaveFrontObj::addVertex(const Vector3D &vertex)
+{
+    _vertexes.append(vertex);
+}
+
+void WaveFrontObj::setError(const QString &error)
+{
+    _error = error;
 }

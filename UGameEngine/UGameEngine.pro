@@ -18,7 +18,8 @@ SOURCES += engine/ugameengine.cpp \
     utils/colorvector3d.cpp \
     entities/ugeentitycube.cpp \
     entities/ugeentityaxes.cpp \
-    utils/wavefrontobj.cpp
+    utils/wavefrontobj.cpp \
+    entities/ugeentitywavefrontobj.cpp
 
 HEADERS += engine/ugameengine.h\
     engine/abstractrenderdevice.h \
@@ -27,7 +28,8 @@ HEADERS += engine/ugameengine.h\
     utils/colorvector3d.h \
     entities/ugeentitycube.h \
     entities/ugeentityaxes.h \
-    utils/wavefrontobj.h
+    utils/wavefrontobj.h \
+    entities/ugeentitywavefrontobj.h
 
 
 # FLEX && BISON

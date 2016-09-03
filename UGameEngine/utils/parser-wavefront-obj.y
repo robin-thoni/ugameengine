@@ -14,13 +14,13 @@ extern int wavefront_objlex(void);
 
 // Bison uses the yyerror function for informing us when a parsing error has
 // occurred.
-void wavefront_objerror(WaveFrontObjData* data, const char *s);
+void wavefront_objerror(WaveFrontObj* data, const char *s);
 %}
 
 %define api.prefix {wavefront_obj}
 %define api.token.prefix {TOK_}
 
-%parse-param {struct WaveFrontObjData* wavefrontData}
+%parse-param {struct WaveFrontObj* wavefrontData}
 
 // Here we define our custom variable types.
 // Custom types must be of fixed size.
@@ -68,11 +68,11 @@ stmt_list: {}
 stmt: mtllib {}
             | usemtl {}
             | named_object {}
-            | vertex { wavefrontData->_vertexes.append(*$1); delete $1; }
+            | vertex { wavefrontData->addVertex(*$1); delete $1; }
             | texture_coordinate {}
             | vertex_normal {}
             | vertex_space {}
-            | face { wavefrontData->_faces.append(*$1); delete $1; }
+            | face { wavefrontData->addFace(*$1); delete $1; }
             | smooth {};
 
 mtllib: MTLLIB STRING {};
@@ -106,7 +106,7 @@ smooth: S NUMBER {}
 
 %%
 
-void wavefront_objerror(WaveFrontObjData* data, const char *s)
+void wavefront_objerror(WaveFrontObj* data, const char *s)
 {
-    data->_error = QString(s) + " at line " + QString::number(wavefront_objlineno) + " at " + QString(wavefront_objtext);
+    data->setError("Parse error: " + QString(s) + " at line " + QString::number(wavefront_objlineno) + " at " + QString(wavefront_objtext));
 }
