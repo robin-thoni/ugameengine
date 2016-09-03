@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QIODevice>
+#include "utils/vector3d.h"
 
 class WaveFrontObj : public QObject
 {
@@ -23,6 +24,9 @@ private:
 
 struct WaveFrontObjData
 {
+    QList<Vector3D> _vertexes;
+    QList<QList<int> > _faces;
+    QString _error;
 };
 
 #endif // WAVEFRONTOBJ_H

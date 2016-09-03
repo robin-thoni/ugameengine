@@ -5,6 +5,7 @@
 #include <QDebug>
 
 // Also, we must add the parser's header where are defined the tokens.
+#include "utils/vector3d.h"
 #include "parser-wavefront-obj.h"
 
 #define TOKEN(type) \
@@ -57,10 +58,10 @@
 "/"     { return TOKEN(SLASH);  }
 
  /* Number */
--?[0-9]+(.[0-9]+)?     { return TOKEN(NUMBER); }
+-?[0-9]+(.[0-9]+)?     { wavefront_objlval.number=atof(yytext); return TOKEN(NUMBER); }
 
  /* String */
-[^\n\r\t ]+  { return TOKEN(STRING);  }
+[^\n\r\t ]+  { wavefront_objlval.string = strcpy((char*)malloc(strlen(yytext)), yytext); return TOKEN(STRING);  }
 
 
 %%

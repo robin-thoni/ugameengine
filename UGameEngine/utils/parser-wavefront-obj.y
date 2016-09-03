@@ -2,6 +2,7 @@
 /*#include <QtGui>*/
 #include <QVariant>
 #include <QDebug>
+#include "utils/vector3d.h"
 #include "utils/wavefrontobj.h"
 #include "lexer-wavefront-obj.h"
 
@@ -13,22 +14,26 @@ extern int wavefront_objlex(void);
 
 // Bison uses the yyerror function for informing us when a parsing error has
 // occurred.
-void wavefront_objerror(const char *s);
+void wavefront_objerror(WaveFrontObjData* data, const char *s);
 %}
 
 %define api.prefix {wavefront_obj}
 %define api.token.prefix {TOK_}
 
+%parse-param {struct WaveFrontObjData* wavefrontData}
+
 // Here we define our custom variable types.
 // Custom types must be of fixed size.
 %union {
-    float number;
+    double number;
+    int integer;
     char* string;
-    void* wavefront;
+    Vector3D* vector3d;
+    QList<int>* integers;
 }
 
 // Define the terminal expression types.
-%token <float_number> NUMBER
+%token <number> NUMBER
 %token <string> STRING
 %token SLASH
 %token MTLLIB
@@ -41,18 +46,20 @@ void wavefront_objerror(const char *s);
 %token F
 %token S
 
+%destructor { free($$); } <string>
+%destructor { delete $$; } <vector3d>
+%destructor { delete $$; } <integers>
+
 // Define the non-terminal expression types.
-%type <wavefront> wavefront_obj
+%type <vector3d> vertex
+%type <integer>   face_vertex
+%type <integers>  face_vertex_list
+%type <integers>  face
+
 
 %%
 
-start: wavefront_obj {
-/*    qDebug() << $1;*/
-};
-
-wavefront_obj: stmt_list {
-                  }
-                ;
+wavefront_obj: stmt_list {};
 
 
 stmt_list: {}
@@ -61,11 +68,11 @@ stmt_list: {}
 stmt: mtllib {}
             | usemtl {}
             | named_object {}
-            | vertex {}
+            | vertex { wavefrontData->_vertexes.append(*$1); delete $1; }
             | texture_coordinate {}
             | vertex_normal {}
             | vertex_space {}
-            | face {}
+            | face { wavefrontData->_faces.append(*$1); delete $1; }
             | smooth {};
 
 mtllib: MTLLIB STRING {};
@@ -74,8 +81,8 @@ usemtl: USEMTL STRING {};
 
 named_object: O STRING {};
 
-vertex: V NUMBER NUMBER NUMBER {}
-            | V NUMBER NUMBER NUMBER NUMBER {};
+vertex: V NUMBER NUMBER NUMBER { $$ = new Vector3D($2, $3, $4); }
+            | V NUMBER NUMBER NUMBER NUMBER { $$ = new Vector3D($2, $3, $4); };
 
 texture_coordinate: VT NUMBER NUMBER {}
             | VT NUMBER NUMBER NUMBER {};
@@ -84,22 +91,22 @@ vertex_normal: VN NUMBER NUMBER NUMBER {};
 
 vertex_space: VP NUMBER NUMBER NUMBER {};
 
-face: F face_vertex_list {};
+face: F face_vertex_list { $$ = $2; };
 
-face_vertex_list: {}
-            | face_vertex_list face_vertex {};
+face_vertex_list: { $$ = new QList<int>(); }
+            | face_vertex_list face_vertex { $1->append($2); };
 
-face_vertex: NUMBER {}
-            | NUMBER SLASH NUMBER {}
-            | NUMBER SLASH NUMBER SLASH NUMBER {}
-            | NUMBER SLASH SLASH NUMBER {};
+face_vertex: NUMBER { $$ = $1; }
+            | NUMBER SLASH NUMBER { $$ = $1; }
+            | NUMBER SLASH NUMBER SLASH NUMBER { $$ = $1; }
+            | NUMBER SLASH SLASH NUMBER { $$ = $1; };
 
 smooth: S NUMBER {}
             | S STRING {};
 
 %%
 
-void wavefront_objerror(const char *s)
+void wavefront_objerror(WaveFrontObjData* data, const char *s)
 {
-    qDebug() << "parse error:" << s << "at line" << wavefront_objlineno << "at" << wavefront_objtext;
+    data->_error = QString(s) + " at line " + QString::number(wavefront_objlineno) + " at " + QString(wavefront_objtext);
 }

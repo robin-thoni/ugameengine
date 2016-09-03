@@ -23,11 +23,20 @@ bool WaveFrontObj::openFile(const QString &filename)
 
 bool WaveFrontObj::load(QIODevice &device)
 {
+    _error.clear();
     QString file = device.readAll();
 
     YY_BUFFER_STATE bufferState = wavefront_obj_scan_string(file.toUtf8().constData());
-    int res = wavefront_objparse();
+    WaveFrontObjData data;
+    int res = wavefront_objparse(&data);
     wavefront_obj_delete_buffer(bufferState);
+    if (res) {
+        _error = "Parse error: " + data._error;
+        qDebug() << _error;
+    }
+    else {
+        qDebug() << "faces:" << data._faces.size() << "vertexes" << data._vertexes.size();
+    }
 
     return res == 0;
 }
