@@ -44,7 +44,7 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
     _width = width;
     _height = height;
     glClearColor(_clearColor.redF(), _clearColor.greenF(),
-                 _clearColor.blue(), _clearColor.alpha());
+                 _clearColor.blueF(), _clearColor.alphaF());
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

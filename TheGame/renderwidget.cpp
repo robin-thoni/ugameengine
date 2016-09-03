@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "entities/ugeentitycube.h"
 #include "entities/ugeentityaxes.h"
+#include "utils/wavefrontobj.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -20,6 +21,10 @@ RenderWidget::RenderWidget(QWidget *parent) :
     _engine->addEntity(new UGEEntityAxes(_engine));
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
+
+
+    WaveFrontObj obj;
+    qDebug() << obj.openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
 }
 
 void RenderWidget::initializeGL()
@@ -78,7 +83,7 @@ void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 
     Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
     dd.setY(height() - dd.getY());
-    qDebug() << event->pos() << dd;
+//    qDebug() << event->pos() << dd;
     pos = _device->get3DFrom2D(event->x(), height() - event->y());
 
     update();

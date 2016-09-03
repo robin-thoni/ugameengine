@@ -12,3 +12,8 @@ Makefile
 *.so.*
 TheGame/TheGame
 tests/tests
+
+lexer-*.cpp
+lexer-*.h
+parser-*.cpp
+parser-*.h
