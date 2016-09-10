@@ -1,13 +1,14 @@
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
 
-#include <QDebug>
+#include "vectorxd.h"
 
-class Vector3D
+class Vector3D: public VectorXD<3>
 {
 public:
     explicit Vector3D(double x = 0.0, double y = 0.0, double z = 0.0);
     Vector3D(const Vector3D& other);
+    Vector3D(const VectorXD<3>& other);
     virtual ~Vector3D();
 
     double getX() const;
@@ -19,59 +20,14 @@ public:
     double getZ() const;
     Vector3D& setZ(double z);
 
-    bool isNull() const;
-
-    bool equal(const Vector3D& other) const;
-
-    Vector3D& add(double k);
+    using VectorXD<3>::add;
     Vector3D& add(double x, double y, double z);
-    Vector3D& add(const Vector3D& other);
 
-    Vector3D& sub(double k);
+    using VectorXD<3>::sub;
     Vector3D& sub(double x, double y, double z);
-    Vector3D& sub(const Vector3D& other);
 
-    Vector3D& mult(double k);
-
-    Vector3D& div(double k);
-
+    using VectorXD<3>::dotProduct;
     double dotProduct(double x, double y, double z) const;
-    double dotProduct(const Vector3D& other) const;
-
-    double norm() const;
-
-    Vector3D operator+() const;
-    Vector3D operator+(const double& k) const;
-    Vector3D& operator+=(const double& k);
-    Vector3D operator+(const Vector3D& other) const;
-    Vector3D& operator+=(const Vector3D& other);
-
-    Vector3D operator-() const;
-    Vector3D operator-(const double& k) const;
-    Vector3D& operator-=(const double& k);
-    Vector3D operator-(const Vector3D& other) const;
-    Vector3D& operator-=(const Vector3D& other);
-
-    Vector3D operator*(const double& k) const;
-    Vector3D& operator*=(const double& k);
-    double operator*(const Vector3D& other) const;
-    Vector3D& operator*=(const Vector3D& other);
-
-    Vector3D operator/(const double& k) const;
-    Vector3D& operator/=(const double& k);
-
-    bool operator==(const Vector3D& other) const;
-    bool operator!=(const Vector3D& other) const;
-
-    bool operator!() const;
-    operator bool() const;
-
-private:
-    double _x;
-    double _y;
-    double _z;
 };
-
-QDebug operator<<(QDebug dbg, const Vector3D& v);
 
 #endif // VECTOR3D_H

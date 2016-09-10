@@ -14,7 +14,7 @@ void UGEEntityWaveFrontObj::draw(AbstractRenderDevice *device)
         QList<int> face = faces[i];
         QList<ColorVector3D> poly;
         for (int j = 0; j < face.size(); ++j) {
-            poly.append(ColorVector3D(Qt::gray, vertexes[face[j] - 1]));
+            poly.append(ColorVector3D(Qt::black, vertexes[face[j] - 1]));
         }
         drawPolygon(device, poly);
     }

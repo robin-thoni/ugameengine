@@ -1,4 +1,5 @@
 #include "abstractrenderdevice.h"
+#include <QImage>
 
 AbstractRenderDevice::AbstractRenderDevice(QObject *parent) :
     QObject(parent)
@@ -41,6 +42,14 @@ void AbstractRenderDevice::lookAt(const Vector3D &eye, const Vector3D &center, c
     _lookCenter = center;
     _lookUp = up;
 }
+
+//void AbstractRenderDevice::loadTextureFromFile(const QVariant &id, const QString &filename)
+//{
+//    QImage img;
+//    if (img.load(filename)) {
+//        loadTexture(id, img);
+//    }
+//}
 
 QColor AbstractRenderDevice::getClearColor() const
 {

@@ -1,5 +1,4 @@
 #include "renderwidget.h"
-#include <GL/glu.h>
 #include <QTimer>
 #include <math.h>
 #include <QDebug>
@@ -17,17 +16,19 @@ RenderWidget::RenderWidget(QWidget *parent) :
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
     UGEEntityCube* cube = new UGEEntityCube(_engine);
-    cube->move(Vector3D(0, 1, 0));
+//    cube->move(Vector3D(0, 1, 0));
+    cube->hide();
     _engine->addEntity(cube);
     _engine->addEntity(new UGEEntityAxes(_engine));
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
-    qDebug() << wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
+    wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
 
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
+//    obj->hide();
 
 }
 

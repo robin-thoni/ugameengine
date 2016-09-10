@@ -13,7 +13,7 @@ float UGEEntityCube::getSize() const
 
 void UGEEntityCube::draw(AbstractRenderDevice *device)
 {
-    QColor color;
+    QColor color = Qt::red;
     float r = _size / 2;
     QList<ColorVector3D> points;
     points << ColorVector3D(color, -r, -r, r) << ColorVector3D(color, -r, r, r) << ColorVector3D(color, r, r, r) << ColorVector3D(color, r, -r, r);

@@ -43,13 +43,21 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
     _fov = fov;
     _width = width;
     _height = height;
+
     glClearColor(_clearColor.redF(), _clearColor.greenF(),
                  _clearColor.blueF(), _clearColor.alphaF());
 
+
+//    GLfloat light_diffuse[] = {1.0, 0.0, 0.0, 1.0};  /* Red diffuse light. */
+//    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};  /* Infinite light location. */
+//    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+//    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+//    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, light_diffuse);
+//    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_MULTISAMPLE);
 
     glMatrixMode(GL_PROJECTION);
     gluPerspective(_fov, _width / _height, 0.1, 100.0);
@@ -81,6 +89,8 @@ void OpenGLRenderDevice::postDraw()
 
 void OpenGLRenderDevice::drawVertex(const ColorVector3D &point)
 {
+//    GLfloat d[] = { point.getColor().redF(), point.getColor().greenF(), point.getColor().blueF(), point.getColor().alphaF() };
+//    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, d);
     glColor4f(point.getColor().redF(), point.getColor().greenF(),
                   point.getColor().blue(), point.getColor().alpha());
     glVertex3d(point.getX(), point.getY(), point.getZ());

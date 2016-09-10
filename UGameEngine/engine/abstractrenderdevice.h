@@ -34,6 +34,10 @@ public slots:
 
     virtual void lookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up = Vector3D(0.0, 1.0, 0.0));
 
+//    void loadTextureFromFile(const QVariant& id, const QString& filename);
+
+//    virtual void loadTexture(const QVariant& id, const QImage& texture) = 0;
+
     virtual void initialize(int fov, int width, int height) = 0;
 
     virtual void resize(int width, int height) = 0;
@@ -47,6 +51,8 @@ public slots:
     virtual void drawLine(const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0) = 0;
 
     virtual void drawPolygon(const QList<ColorVector3D>& points) = 0;
+
+//    virtual void drawPolygonTexture(const QList<ColorVector3D>& points) = 0;
 
 protected:
     QColor _clearColor;
