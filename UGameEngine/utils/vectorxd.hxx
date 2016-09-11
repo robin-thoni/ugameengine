@@ -101,6 +101,11 @@ tmpl VectorXD<X> &VectorXD<X>::mult(double k)
     return *this;
 }
 
+tmpl VectorXD<X> &VectorXD<X>::mult(double scalars[X])
+{
+    return mult(VectorXD<X>(scalars));
+}
+
 tmpl VectorXD<X> &VectorXD<X>::mult(const VectorXD<X> &other)
 {
     for (unsigned i = 0; i < X; ++i) {
@@ -111,8 +116,22 @@ tmpl VectorXD<X> &VectorXD<X>::mult(const VectorXD<X> &other)
 
 tmpl VectorXD<X> &VectorXD<X>::div(double k)
 {
+    double scalars[X];
     for (unsigned i = 0; i < X; ++i) {
-        _scalars[i] /= k;
+        scalars[i] = k;
+    }
+    return div(VectorXD<X>(scalars));
+}
+
+tmpl VectorXD<X> &VectorXD<X>::div(double scalars[X])
+{
+    return div(VectorXD<X>(scalars));
+}
+
+tmpl VectorXD<X> &VectorXD<X>::div(const VectorXD<X> &other)
+{
+    for (unsigned i = 0; i < X; ++i) {
+        _scalars[i] /= other._scalars[i];
     }
     return *this;
 }

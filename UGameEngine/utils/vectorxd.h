@@ -28,9 +28,13 @@ public:
     VectorXD<X>& sub(const VectorXD<X>& other);
 
     VectorXD<X>& mult(double k);
+    VectorXD<X>& mult(double scalars[X]);
     VectorXD<X>& mult(const VectorXD<X>& k);
 
     VectorXD<X>& div(double k);
+    VectorXD<X>& div(double scalars[X]);
+    VectorXD<X>& div(const VectorXD<X>& k);
+
 
     double dotProduct(const VectorXD<X>& other) const;
 
