@@ -28,10 +28,12 @@ public:
     VectorXD<X>& sub(const VectorXD<X>& other);
 
     VectorXD<X>& mult(double k);
+    VectorXD<X>& mult(const VectorXD<X>& k);
 
     VectorXD<X>& div(double k);
 
     double dotProduct(const VectorXD<X>& other) const;
+    VectorXD<X>& crossProduct(const VectorXD<X>& other);
 
     double norm() const;
 
@@ -49,7 +51,7 @@ public:
 
     VectorXD<X> operator*(const double& k) const;
     VectorXD<X>& operator*=(const double& k);
-    double operator*(const VectorXD<X>& other) const;
+    VectorXD<X> operator*(const VectorXD<X>& other) const;
     VectorXD<X>& operator*=(const VectorXD<X>& other);
 
     VectorXD<X> operator/(const double& k) const;

@@ -18,9 +18,9 @@ public:
     void setPosition(const Vector3D& position);
     void move(const Vector3D& move);
 
-    Vector3D getSpeed() const;
-    void setSpeed(const Vector3D& speed);
-    void accelerate(const Vector3D& speed);
+//    Vector3D getSpeed() const;
+//    void setSpeed(const Vector3D& speed);
+//    void accelerate(const Vector3D& speed);
 
     Vector3D getRotation() const;
     void setRotation(const Vector3D& rotation);
@@ -34,6 +34,9 @@ public:
     void setVisible(bool visible);
     void show();
     void hide();
+
+    QColor getColor() const;
+    void setColor(const QColor &color);
 
     Vector3D getRealPoint(const Vector3D& pos);
     ColorVector3D getRealPoint(const ColorVector3D& pos);
@@ -49,16 +52,34 @@ public:
 
     virtual void draw(AbstractRenderDevice* device) = 0;
 
+signals:
+    void positionChanged();
+    void positionChanged(const Vector3D& position);
+
+    void rotationChanged();
+    void rotationChanged(const Vector3D& rotation);
+
+    void scaleChanged();
+    void scaleChanged(const Vector3D& scale);
+
+    void visibilityChanged();
+    void visibilityChanged(bool visible);
+
+    void colorChanged();
+    void colorChanged(QColor color);
+
 private:
     Vector3D _position;
 
-    Vector3D _speed;
+//    Vector3D _speed;
 
     Vector3D _rotation;
 
     Vector3D _scale;
 
     bool _visible;
+
+    QColor _color;
 
 };
 

@@ -9,21 +9,36 @@ class UGEEntityCube : public UGEEntity
 public:
     explicit UGEEntityCube(QObject *parent = 0);
 
-    float getSize() const;
-
-    virtual void draw(AbstractRenderDevice* device);
+    double getSize() const;
 
     QVariant getTextureId() const;
 
+    virtual void draw(AbstractRenderDevice* device);
+
 signals:
+    void sizeChanged();
+    void sizeChanged(double);
+
+    void textureChanged();
+    void textureChanged(const QVariant& textureId);
 
 public slots:
-    void setSize(float size);
+    void setSize(double size);
+    void increaseSize(double size);
+
     void setTextureId(const QVariant &textureId);
 
+private slots:
+    void updateFaces();
+
 private:
-    float _size;
+    double _size;
+
     QVariant _textureId;
+
+    QList<QList<TextureVector3D> > _facesTexture;
+
+    QList<QList<ColorVector3D> > _facesColor;
 
 };
 

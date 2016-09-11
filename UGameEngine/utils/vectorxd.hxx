@@ -101,6 +101,14 @@ tmpl VectorXD<X> &VectorXD<X>::mult(double k)
     return *this;
 }
 
+tmpl VectorXD<X> &VectorXD<X>::mult(const VectorXD<X> &other)
+{
+    for (unsigned i = 0; i < X; ++i) {
+        _scalars[i] *= other._scalars[i];
+    }
+    return *this;
+}
+
 tmpl VectorXD<X> &VectorXD<X>::div(double k)
 {
     for (unsigned i = 0; i < X; ++i) {
@@ -116,6 +124,17 @@ tmpl double VectorXD<X>::dotProduct(const VectorXD<X> &other) const
         total += _scalars[i] * other._scalars[i];
     }
     return total;
+}
+
+tmpl VectorXD<X>& VectorXD<X>::crossProduct(const VectorXD<X>& other)
+{
+    VectorXD<X> t = *this;
+    for (unsigned i = 0; i < X; ++i) {
+        unsigned j = (i + 1) % X;
+        unsigned k = (i + 2) % X;
+        _scalars[i] = (t._scalars[j] * other._scalars[k]) - (t._scalars[k] * other._scalars[j]);
+    }
+    return *this;
 }
 
 tmpl double VectorXD<X>::norm() const
@@ -191,9 +210,9 @@ tmpl VectorXD<X> &VectorXD<X>::operator*=(const double &k)
     return mult(k);
 }
 
-tmpl double VectorXD<X>::operator*(const VectorXD<X> &other) const
+tmpl VectorXD<X> VectorXD<X>::operator*(const VectorXD<X> &other) const
 {
-    return VectorXD<X>(*this).dotProduct(other);
+    return VectorXD<X>(*this).mult(other);
 }
 
 tmpl VectorXD<X> &VectorXD<X>::operator*=(const VectorXD<X> &other)
