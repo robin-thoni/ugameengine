@@ -29,7 +29,7 @@ tmpl VectorXD<X>& VectorXD<X>::setScalar(unsigned i, double value)
     return *this;
 }
 
-tmpl double VectorXD<X>::getScalar(unsigned i)
+tmpl double VectorXD<X>::getScalar(unsigned i) const
 {
     return _scalars[i];
 }
@@ -263,6 +263,11 @@ tmpl bool VectorXD<X>::operator==(const VectorXD<X> &other) const
 tmpl bool VectorXD<X>::operator!=(const VectorXD<X> &other) const
 {
     return !equal(other);
+}
+
+tmpl double VectorXD<X>::operator[](unsigned i) const
+{
+    return getScalar(i);
 }
 
 tmpl bool VectorXD<X>::operator!() const

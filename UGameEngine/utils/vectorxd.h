@@ -13,7 +13,7 @@ public:
     VectorXD(const VectorXD<X>& other);
 
     VectorXD<X>& setScalar(unsigned i, double value);
-    double getScalar(unsigned i);
+    double getScalar(unsigned i) const;
 
     bool isNull() const;
 
@@ -65,6 +65,8 @@ public:
 
     bool operator==(const VectorXD<X>& other) const;
     bool operator!=(const VectorXD<X>& other) const;
+
+    double operator[](unsigned i) const;
 
     bool operator!() const;
     operator bool() const;

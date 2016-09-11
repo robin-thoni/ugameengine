@@ -51,6 +51,8 @@ private slots:
 
     void norm1();
     void norm2();
+
+    void getScalarOp();
 };
 
 void TestVector3D::gettersSetters1()
@@ -402,6 +404,15 @@ void TestVector3D::norm2()
 {
     Vector3D v(0.0, 30.0, 40.0);;
     QCOMPARE(v.norm(), 50.0);
+}
+
+void TestVector3D::getScalarOp()
+{
+    double x = 1.42, y = 2.0, z = 3.0;
+    Vector3D v(x, y, z);
+    QCOMPARE(v[0], x);
+    QCOMPARE(v[1], y);
+    QCOMPARE(v[2], z);
 }
 
 QTEST_MAIN(TestVector3D)
