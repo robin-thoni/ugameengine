@@ -3,13 +3,16 @@
 
 #include "vectorxd.h"
 
-class Vector2D : public VectorXD<2>
+typedef VectorXD<2> Vector2D;
+
+template<> class VectorXD<2> : public GenericVector<2, VectorXD<2> >
 {
 public:
-    explicit Vector2D(double x = 0.0, double y = 0.0);
-    Vector2D(const Vector2D& other);
-    Vector2D(const VectorXD<2>& other);
-    virtual ~Vector2D();
+    VectorXD<2>();
+    VectorXD<2>(const double scalars[2]);
+    VectorXD<2>(double x, double y);
+    VectorXD<2>(const VectorXD<2>& other);
+    virtual ~VectorXD<2>();
 
     double getX() const;
     Vector2D& setX(double x);
@@ -17,13 +20,13 @@ public:
     double getY() const;
     Vector2D& setY(double y);
 
-    using VectorXD<2>::add;
+    using GenericVector<2, VectorXD<2> >::add;
     Vector2D& add(double x, double y);
 
-    using VectorXD<2>::sub;
+    using GenericVector<2, VectorXD<2> >::sub;
     Vector2D& sub(double x, double y);
 
-    using VectorXD<2>::dotProduct;
+    using GenericVector<2, VectorXD<2> >::dotProduct;
     double dotProduct(double x, double y) const;
 };
 

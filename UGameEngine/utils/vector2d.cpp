@@ -1,24 +1,30 @@
 #include "vector2d.h"
 
+VectorXD<2>::VectorXD()
+{
+    _scalars[0] = 0.0;
+    _scalars[1] = 0.0;
+}
 
-Vector2D::Vector2D(double x, double y)
-    : VectorXD<2>()
+VectorXD<2>::VectorXD(const double scalars[2])
+{
+    _scalars[0] = scalars[0];
+    _scalars[1] = scalars[1];
+}
+
+Vector2D::VectorXD(double x, double y)
 {
     _scalars[0] = x;
     _scalars[1] = y;
 }
 
-Vector2D::Vector2D(const Vector2D &other)
-    : VectorXD<2>(other)
+Vector2D::VectorXD(const VectorXD<2> &other)
 {
+    _scalars[0] = other._scalars[0];
+    _scalars[1] = other._scalars[1];
 }
 
-Vector2D::Vector2D(const VectorXD<2> &other)
-    : VectorXD<2>(other)
-{
-}
-
-Vector2D::~Vector2D()
+Vector2D::~VectorXD()
 {
 }
 
@@ -45,16 +51,12 @@ Vector2D& Vector2D::setY(double y)
 
 Vector2D &Vector2D::add(double x, double y)
 {
-    _scalars[0] += x;
-    _scalars[1] += y;
-    return *this;
+    return add(Vector2D(x, y));
 }
 
 Vector2D &Vector2D::sub(double x, double y)
 {
-    _scalars[0] -= x;
-    _scalars[1] -= y;
-    return *this;
+    return sub(Vector2D(x, y));
 }
 
 double Vector2D::dotProduct(double x, double y) const

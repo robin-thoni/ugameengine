@@ -3,68 +3,65 @@
 
 #include <QDebug>
 
-#define tmpl template<unsigned X>
+#define tmplx template<unsigned X>
+#define tmpl template<unsigned X, class T>
 
-tmpl class VectorXD
+tmpl class GenericVector
 {
 public:
-    VectorXD();
-    VectorXD(const double scalars[X]);
-    VectorXD(const VectorXD<X>& other);
 
-    VectorXD<X>& setScalar(unsigned i, double value);
+    T& setScalar(unsigned i, double value);
     double getScalar(unsigned i) const;
 
     bool isNull() const;
 
-    bool equal(const VectorXD<X>& other) const;
+    bool equal(const T& other) const;
 
-    VectorXD<X>& add(double k);
-    VectorXD<X>& add(double scalars[X]);
-    VectorXD<X>& add(const VectorXD<X>& other);
+    T& add(double k);
+    T& add(double scalars[X]);
+    T& add(const T& other);
 
-    VectorXD<X>& sub(double k);
-    VectorXD<X>& sub(double scalars[X]);
-    VectorXD<X>& sub(const VectorXD<X>& other);
+    T& sub(double k);
+    T& sub(double scalars[X]);
+    T& sub(const T& other);
 
-    VectorXD<X>& mult(double k);
-    VectorXD<X>& mult(double scalars[X]);
-    VectorXD<X>& mult(const VectorXD<X>& k);
+    T& mult(double k);
+    T& mult(double scalars[X]);
+    T& mult(const T& k);
 
-    VectorXD<X>& div(double k);
-    VectorXD<X>& div(double scalars[X]);
-    VectorXD<X>& div(const VectorXD<X>& k);
+    T& div(double k);
+    T& div(double scalars[X]);
+    T& div(const T& k);
 
+    double dotProduct(const T& other) const;
 
-    double dotProduct(const VectorXD<X>& other) const;
-
-    VectorXD<X>& crossProduct(const VectorXD<X>& other);
-    static VectorXD<X> crossProduct(const VectorXD<X> &v1, const VectorXD<X> &v2);
+    T& crossProduct(const T& other);
+    static T crossProduct(const T &v1, const T &v2);
 
     double norm() const;
 
-    VectorXD<X> operator+() const;
-    VectorXD<X> operator+(const double& k) const;
-    VectorXD<X>& operator+=(const double& k);
-    VectorXD<X> operator+(const VectorXD<X>& other) const;
-    VectorXD<X>& operator+=(const VectorXD<X>& other);
+    T operator+() const;
+    T operator+(const double& k) const;
+    T& operator+=(const double& k);
+    T operator+(const T& other) const;
+    T& operator+=(const T& other);
 
-    VectorXD<X> operator-() const;
-    VectorXD<X> operator-(const double& k) const;
-    VectorXD<X>& operator-=(const double& k);
-    VectorXD<X> operator-(const VectorXD<X>& other) const;
-    VectorXD<X>& operator-=(const VectorXD<X>& other);
+    T operator-() const;
+    T operator-(const double& k) const;
+    T& operator-=(const double& k);
+    T operator-(const T& other) const;
+    T& operator-=(const T& other);
 
-    VectorXD<X> operator*(const double& k) const;
-    VectorXD<X>& operator*=(const double& k);
-    VectorXD<X> operator*(const VectorXD<X>& other) const;
-    VectorXD<X>& operator*=(const VectorXD<X>& other);
+    T operator*(const double& k) const;
+    T& operator*=(const double& k);
+    T operator*(const T& other) const;
+    T& operator*=(const T& other);
 
-    VectorXD<X> operator/(const double& k) const;
-    VectorXD<X>& operator/=(const double& k);
+    T operator/(const double& k) const;
+    T& operator/=(const double& k);
 
-    bool operator==(const VectorXD<X>& other) const;
-    bool operator!=(const VectorXD<X>& other) const;
+    bool operator==(const T& other) const;
+    bool operator!=(const T& other) const;
 
     double operator[](unsigned i) const;
 
@@ -73,9 +70,23 @@ public:
 
 protected:
     double _scalars[X];
+
+private:
+    T* getThis() const;
 };
 
-tmpl QDebug operator<<(QDebug dbg, const VectorXD<X>& v);
+tmplx class VectorXD: public GenericVector<X, VectorXD<X> >
+{
+public:
+    VectorXD();
+    VectorXD(const double scalars[X]);
+    VectorXD(const VectorXD<X>& other);
+
+protected:
+    using GenericVector<X, VectorXD<X> >::_scalars;
+};
+
+tmplx QDebug operator<<(QDebug dbg, const VectorXD<X>& v);
 
 #include "vectorxd.hxx"
 
