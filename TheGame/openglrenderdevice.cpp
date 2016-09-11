@@ -1,4 +1,5 @@
 #include "openglrenderdevice.h"
+#include <QRgb>
 #include "GL/gl.h"
 #include "GL/glu.h"
 
@@ -38,6 +39,36 @@ Vector3D OpenGLRenderDevice::get3DFrom2D(int x, int y)
     return Vector3D(gx, gy, gz);
 }
 
+void OpenGLRenderDevice::loadTexture(const QVariant &id, const QImage &texture)
+{
+    OpenGLTextureData data;
+    data.id = 0;
+    data.image = texture;
+    data.rawData = new char[texture.width() * texture.height() * 4];
+
+    for (int y = 0; y < texture.height(); ++y) {
+        for(int x = 0; x < texture.width(); ++x) {
+            int p = (y * texture.height() * 4) + x * 4;
+            QColor px = QColor(texture.pixel(x, y));
+            data.rawData[p] = px.red();
+            data.rawData[p + 1] = px.green();
+            data.rawData[p + 2] = px.blue();
+            data.rawData[p + 3] = 255;
+        }
+    }
+
+
+    glGenTextures(1, &data.id);
+    glBindTexture(GL_TEXTURE_2D, data.id);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width(), texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.rawData);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    _textures.insert(id, data);
+}
+
 void OpenGLRenderDevice::initialize(int fov, int width, int height)
 {
     _fov = fov;
@@ -47,6 +78,19 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
     glClearColor(_clearColor.redF(), _clearColor.greenF(),
                  _clearColor.blueF(), _clearColor.alphaF());
 
+//    glShadeModel(GL_SMOOTH);
+//    glBlendFunc (GL_SRC_ALPHA_SATURATE, GL_ONE);
+//    glColorMaterial(GL_FRONT,GL_SPECULAR);
+//    glCullFace(GL_BACK);
+
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
+//    glEnable(GL_COLOR_MATERIAL);
+//    glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_2D);
+
+//    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
 
 //    GLfloat light_diffuse[] = {1.0, 0.0, 0.0, 1.0};  /* Red diffuse light. */
 //    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};  /* Infinite light location. */
@@ -55,9 +99,14 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
 //    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, light_diffuse);
 //    glEnable(GL_LIGHT0);
 //    glEnable(GL_LIGHTING);
-    glDisable(GL_LIGHTING);
 
     glEnable(GL_DEPTH_TEST);
+//    glDisable(GL_BLEND);
+//    glDisable(GL_POLYGON_SMOOTH);
+//    glEnable(GL_TEXTURE_2D);
+//    glColorMaterial(GL_FRONT,GL_SPECULAR);
+//    glEnable(GL_COLOR_MATERIAL);
+//    glEnable(GL_CULL_FACE);
 
     glMatrixMode(GL_PROJECTION);
     gluPerspective(_fov, _width / _height, 0.1, 100.0);
@@ -117,6 +166,19 @@ void OpenGLRenderDevice::drawPolygon(const QList<ColorVector3D> &points)
     glBegin(GL_POLYGON);
     for (int i = 0; i < points.size(); ++i) {
         drawVertex(points[i]);
+    }
+    glEnd();
+}
+
+void OpenGLRenderDevice::drawPolygonTexture(const QList<TextureVector3D> &points, const QVariant &textureId)
+{
+    const OpenGLTextureData& data = _textures[textureId];
+    glBindTexture(GL_TEXTURE_2D, data.id);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < points.size(); ++i) {
+        TextureVector3D p = points[i];
+        glTexCoord2d(p.getTextureCoord().getX(), p.getTextureCoord().getY());
+        drawVertex(p);
     }
     glEnd();
 }

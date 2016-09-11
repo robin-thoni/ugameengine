@@ -43,13 +43,13 @@ void AbstractRenderDevice::lookAt(const Vector3D &eye, const Vector3D &center, c
     _lookUp = up;
 }
 
-//void AbstractRenderDevice::loadTextureFromFile(const QVariant &id, const QString &filename)
-//{
-//    QImage img;
-//    if (img.load(filename)) {
-//        loadTexture(id, img);
-//    }
-//}
+void AbstractRenderDevice::loadTextureFromFile(const QVariant &id, const QString &filename)
+{
+    QImage img;
+    if (img.load(filename)) {
+        loadTexture(id, img);
+    }
+}
 
 QColor AbstractRenderDevice::getClearColor() const
 {

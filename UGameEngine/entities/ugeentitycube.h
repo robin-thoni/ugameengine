@@ -13,13 +13,17 @@ public:
 
     virtual void draw(AbstractRenderDevice* device);
 
+    QVariant getTextureId() const;
+
 signals:
 
 public slots:
     void setSize(float size);
+    void setTextureId(const QVariant &textureId);
 
 private:
     float _size;
+    QVariant _textureId;
 
 };
 

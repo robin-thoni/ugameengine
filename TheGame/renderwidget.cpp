@@ -15,9 +15,11 @@ RenderWidget::RenderWidget(QWidget *parent) :
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
+
     UGEEntityCube* cube = new UGEEntityCube(_engine);
+    cube->setTextureId("test");
 //    cube->move(Vector3D(0, 1, 0));
-    cube->hide();
+//    cube->hide();
     _engine->addEntity(cube);
     _engine->addEntity(new UGEEntityAxes(_engine));
     setMouseTracking(true);
@@ -28,7 +30,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
-//    obj->hide();
+    obj->hide();
 
 }
 
@@ -38,6 +40,7 @@ void RenderWidget::initializeGL()
     _device->setClearColor(Qt::gray);
     _device->initialize(70, width(), height());
 
+    _device->loadTextureFromFile("test", "/home/robin/Downloads/test.png");
 }
 
 void RenderWidget::paintGL()
@@ -51,8 +54,8 @@ void RenderWidget::paintGL()
                 );
     _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
     _engine->draw();
-    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, pos));
-    _device->drawPoint(ColorVector3D(Qt::magenta, 0.5, 0.5, 0.5));
+//    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, pos));
+//    _device->drawPoint(ColorVector3D(Qt::magenta, 0.5, 0.5, 0.5));
 }
 
 void RenderWidget::resizeGL(int width, int height)

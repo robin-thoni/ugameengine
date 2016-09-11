@@ -99,6 +99,11 @@ ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
     return ColorVector3D(pos.getColor(), getRealPoint((Vector3D)pos));
 }
 
+TextureVector3D UGEEntity::getRealPoint(const TextureVector3D &pos)
+{
+    return TextureVector3D(pos.getTextureCoord(), getRealPoint((ColorVector3D)pos));
+}
+
 void UGEEntity::drawPoint(AbstractRenderDevice *device, const ColorVector3D &point)
 {
     device->drawPoint(getRealPoint(point));
@@ -115,4 +120,12 @@ void UGEEntity::drawPolygon(AbstractRenderDevice *device, QList<ColorVector3D> p
         points[i] = getRealPoint(points[i]);
     }
     device->drawPolygon(points);
+}
+
+void UGEEntity::drawPolygonTexture(AbstractRenderDevice *device, QList<TextureVector3D> points, const QVariant &textureId)
+{
+    for (int i = 0; i < points.size(); ++i) {
+        points[i] = getRealPoint(points[i]);
+    }
+    device->drawPolygonTexture(points, textureId);
 }

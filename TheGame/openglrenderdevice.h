@@ -3,6 +3,13 @@
 
 #include "engine/abstractrenderdevice.h"
 
+struct OpenGLTextureData
+{
+    unsigned id;
+    QImage image;
+    char* rawData;
+};
+
 class OpenGLRenderDevice : public AbstractRenderDevice
 {
     Q_OBJECT
@@ -16,6 +23,8 @@ public:
 signals:
 
 public slots:
+
+    virtual void loadTexture(const QVariant& id, const QImage& texture);
 
     virtual void initialize(int fov, int width, int height);
 
@@ -33,12 +42,16 @@ public slots:
 
     virtual void drawPolygon(const QList<ColorVector3D>& points);
 
+    virtual void drawPolygonTexture(const QList<TextureVector3D>& points, const QVariant& textureId);
+
 private:
     int _width;
 
     int _height;
 
     int _fov;
+
+    QMap<QVariant, OpenGLTextureData> _textures;
 
 };
 

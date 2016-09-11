@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QColor>
+#include <QImage>
 #include "utils/colorvector3d.h"
+#include "utils/texturevector3d.h"
 
 class AbstractRenderDevice : public QObject
 {
@@ -34,9 +36,9 @@ public slots:
 
     virtual void lookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up = Vector3D(0.0, 1.0, 0.0));
 
-//    void loadTextureFromFile(const QVariant& id, const QString& filename);
+    void loadTextureFromFile(const QVariant& id, const QString& filename);
 
-//    virtual void loadTexture(const QVariant& id, const QImage& texture) = 0;
+    virtual void loadTexture(const QVariant& id, const QImage& texture) = 0;
 
     virtual void initialize(int fov, int width, int height) = 0;
 
@@ -52,7 +54,7 @@ public slots:
 
     virtual void drawPolygon(const QList<ColorVector3D>& points) = 0;
 
-//    virtual void drawPolygonTexture(const QList<ColorVector3D>& points) = 0;
+    virtual void drawPolygonTexture(const QList<TextureVector3D>& points, const QVariant& textureId) = 0;
 
 protected:
     QColor _clearColor;

@@ -94,7 +94,7 @@ vertex_space: VP NUMBER NUMBER NUMBER {};
 face: F face_vertex_list { $$ = $2; };
 
 face_vertex_list: { $$ = new QList<int>(); }
-            | face_vertex_list face_vertex { $1->append($2); };
+            | face_vertex_list face_vertex { $1->append($2); $$ = $1;};
 
 face_vertex: NUMBER { $$ = $1; }
             | NUMBER SLASH NUMBER { $$ = $1; }

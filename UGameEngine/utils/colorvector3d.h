@@ -7,8 +7,10 @@
 class ColorVector3D : public Vector3D
 {
 public:
-    ColorVector3D(QColor color = Qt::black, double x = 0.0, double y = 0.0, double z = 0.0);
-    ColorVector3D(QColor color = Qt::black, const Vector3D& other = Vector3D());
+    ColorVector3D();
+    ColorVector3D(const QColor& color);
+    ColorVector3D(const QColor& color, double x, double y, double z);
+    ColorVector3D(const QColor& color, const Vector3D& other);
     ColorVector3D(const ColorVector3D& other);
     virtual ~ColorVector3D();
 

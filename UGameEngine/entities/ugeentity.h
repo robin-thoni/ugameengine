@@ -37,12 +37,15 @@ public:
 
     Vector3D getRealPoint(const Vector3D& pos);
     ColorVector3D getRealPoint(const ColorVector3D& pos);
+    TextureVector3D getRealPoint(const TextureVector3D& pos);
 
     virtual void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
 
     virtual void drawLine(AbstractRenderDevice* device, const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0);
 
     virtual void drawPolygon(AbstractRenderDevice* device, QList<ColorVector3D> points);
+
+    virtual void drawPolygonTexture(AbstractRenderDevice *device, QList<TextureVector3D> points, const QVariant& textureId);
 
     virtual void draw(AbstractRenderDevice* device) = 0;
 
