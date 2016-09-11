@@ -47,6 +47,7 @@ private slots:
 
     void crossProduct1();
     void crossProduct2();
+    void crossProduct3();
 
     void norm1();
     void norm2();
@@ -376,6 +377,16 @@ void TestVector3D::crossProduct2()
     Vector3D v(10.0, 24.0, 8.0);
     Vector3D v2(15.0, 5.0, 0.0);
     v.crossProduct(v2);
+    QCOMPARE(v.getX(), -40.0);
+    QCOMPARE(v.getY(), 120.0);
+    QCOMPARE(v.getZ(), -310.0);
+}
+
+void TestVector3D::crossProduct3()
+{
+    Vector3D v1(10.0, 24.0, 8.0);
+    Vector3D v2(15.0, 5.0, 0.0);
+    Vector3D v = Vector3D::crossProduct(v1, v2);
     QCOMPARE(v.getX(), -40.0);
     QCOMPARE(v.getY(), 120.0);
     QCOMPARE(v.getZ(), -310.0);

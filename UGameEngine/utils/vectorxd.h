@@ -33,7 +33,9 @@ public:
     VectorXD<X>& div(double k);
 
     double dotProduct(const VectorXD<X>& other) const;
+
     VectorXD<X>& crossProduct(const VectorXD<X>& other);
+    static VectorXD<X> crossProduct(const VectorXD<X> &v1, const VectorXD<X> &v2);
 
     double norm() const;
 

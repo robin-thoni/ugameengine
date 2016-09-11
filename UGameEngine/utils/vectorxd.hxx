@@ -137,6 +137,11 @@ tmpl VectorXD<X>& VectorXD<X>::crossProduct(const VectorXD<X>& other)
     return *this;
 }
 
+tmpl VectorXD<X> VectorXD<X>::crossProduct(const VectorXD<X> &v1, const VectorXD<X> &v2)
+{
+    return VectorXD<X>(v1).crossProduct(v2);
+}
+
 tmpl double VectorXD<X>::norm() const
 {
     double total = 0;
