@@ -10,15 +10,18 @@
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
   , _radius(5.0)
-  , _phi(45)
-  , _theta(45)
+  , _phi(45.0)
+  , _theta(45.0)
+  , _angle(0.0)
 {
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
 
     UGEEntityCube* cube = new UGEEntityCube(_engine);
     cube->setTextureId("test");
-//    cube->move(Vector3D(0, 1, 0));
+    cube->rotate(Vector3D(0.0, 45.0, 45.0));
+    cube->move(Vector3D(0, 1, 0));
+    cube->setScale(Vector3D(1.0, 2.0, 1.0));
 //    cube->hide();
     _engine->addEntity(cube);
     _engine->addEntity(new UGEEntityAxes(_engine));
@@ -32,6 +35,8 @@ RenderWidget::RenderWidget(QWidget *parent) :
     _engine->addEntity(obj);
     obj->hide();
 
+    _entity = cube;
+//    animate();
 }
 
 void RenderWidget::initializeGL()
@@ -87,14 +92,14 @@ void RenderWidget::mouseMoveEvent(QMouseEvent *event)
         rotate(-diff.x(), -diff.y());
 
         _lastPoint = event->pos();
+        update();
     }
 
-    Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
-    dd.setY(height() - dd.getY());
+//    Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
+//    dd.setY(height() - dd.getY());
 //    qDebug() << event->pos() << dd;
-    pos = _device->get3DFrom2D(event->x(), height() - event->y());
+//    pos = _device->get3DFrom2D(event->x(), height() - event->y());
 
-    update();
 }
 
 void RenderWidget::wheelEvent(QWheelEvent *event)
@@ -131,5 +136,13 @@ void RenderWidget::rotate(float phi, float theta)
     else {
         _theta = normalizeAngle(_theta + theta);
     }
+    update();
+}
+
+void RenderWidget::animate()
+{
+//    _angle += 0.1;
+    _entity->rotate(Vector3D(0.0, 2.0, 2.0));
+    QTimer::singleShot(20, this, SLOT(animate()));
     update();
 }

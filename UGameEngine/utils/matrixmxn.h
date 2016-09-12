@@ -13,6 +13,8 @@ uge_gm_tmpl_mnt class GenericMatrix
 public:
     virtual ~GenericMatrix();
 
+    static T getIdentityMatrix();
+
     T& setScalar(unsigned i, unsigned j, double value);
     double getScalar(unsigned i, unsigned j) const;
 
@@ -22,6 +24,8 @@ public:
 
     T& fill(double k);
     T& fill(double scalars[M][N]);
+
+    T& setToIdentity();
 
     T& add(double k);
     T& add(double scalars[M][N]);

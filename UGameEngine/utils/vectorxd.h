@@ -4,10 +4,10 @@
 #include <QDebug>
 #include "matrixmxn.h"
 
-#define tmplx template<unsigned X>
-#define tmpl template<unsigned X, class T>
+#define uge_gv_tmpl_x template<unsigned X>
+#define uge_gv_tmpl_xt template<unsigned X, class T>
 
-tmpl class GenericVector: public GenericMatrix<X, 1, T >
+uge_gv_tmpl_xt class GenericVector: public GenericMatrix<X, 1, T >
 {
 public:
 
@@ -32,9 +32,9 @@ private:
     T* getThis() const;
 };
 
-tmplx using VectorXD = MatrixMxN<X, 1>;
+uge_gv_tmpl_x using VectorXD = MatrixMxN<X, 1>;
 
-tmplx class MatrixMxN<X, 1>: public GenericVector<X, VectorXD<X>>
+uge_gv_tmpl_x class MatrixMxN<X, 1>: public GenericVector<X, VectorXD<X>>
 {
 public:
     MatrixMxN();

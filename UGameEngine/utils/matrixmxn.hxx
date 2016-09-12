@@ -24,6 +24,13 @@ uge_gm_tmpl_mnt GenericMatrix<M, N, T>::~GenericMatrix()
 {
 }
 
+uge_gm_tmpl_mnt T GenericMatrix<M, N, T>::getIdentityMatrix()
+{
+    T m;
+    m.setToIdentity();
+    return m;
+}
+
 uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::setScalar(unsigned i, unsigned j, double value)
 {
     _scalars[i][j] = value;
@@ -67,6 +74,16 @@ uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::fill(double scalars[M][N])
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
             _scalars[i][j] = scalars[i][j];
+        }
+    }
+    return *getThis();
+}
+
+uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::setToIdentity()
+{
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            _scalars[i][j] = (i == j);
         }
     }
     return *getThis();
@@ -151,9 +168,9 @@ MatrixMxN<M, P> GenericMatrix<M, N, T>::multMatrix(const MatrixMxN<N, P>& other)
         for (int j = 0; j < P; ++j) {
             double t = 0;
             for (int k = 0; k < N; ++k) {
-                t += _scalars[i][k] * other._scalars[k][j];
+                t += _scalars[i][k] * other.getScalar(k, j);
             }
-            m._scalars[i][j] = t;
+            m.setScalar(i, j, t);
         }
     }
     return m;

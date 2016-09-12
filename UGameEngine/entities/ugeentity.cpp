@@ -1,7 +1,9 @@
 #include "ugeentity.h"
+#include "utils/tools.h"
 
 UGEEntity::UGEEntity(QObject *parent)
     : QObject(parent)
+    , _scale(1.0, 1.0, 1.0)
     , _visible(true)
 {
 }
@@ -51,14 +53,14 @@ Vector3D UGEEntity::getRotation() const
 
 void UGEEntity::setRotation(const Vector3D &rotation)
 {
-    _rotation = rotation;
+    _rotation = Tools::normalizeAngle(rotation);
     emit rotationChanged();
     emit rotationChanged(rotation);
 }
 
 void UGEEntity::rotate(const Vector3D &rotation)
 {
-    _rotation += rotation;
+    _rotation = Tools::normalizeAngle(rotation + _rotation);
     emit rotationChanged();
     emit rotationChanged(rotation);
 }
@@ -121,8 +123,13 @@ void UGEEntity::setColor(const QColor &color)
 
 Vector3D UGEEntity::getRealPoint(const Vector3D &pos)
 {
-    Vector3D p = pos + _position;
-    return p;
+    Matrix3x3 scale;
+    scale.setScalar(0, 0, _scale.getX());
+    scale.setScalar(1, 1, _scale.getY());
+    scale.setScalar(2, 2, _scale.getZ());
+    Vector3D p = scale.multMatrix(pos);
+    Matrix3x3 rot = getRotationMatrix(_rotation);
+    return (rot.multMatrix(p) + _position);
 }
 
 ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
@@ -133,6 +140,34 @@ ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
 TextureVector3D UGEEntity::getRealPoint(const TextureVector3D &pos)
 {
     return TextureVector3D(pos.getTextureCoord(), getRealPoint((ColorVector3D)pos));
+}
+
+Matrix3x3 UGEEntity::getRotationMatrix(const Vector3D &rotation)
+{
+    Vector3D r = Tools::degreeToRad(rotation);
+
+    Matrix3x3 mx;
+    mx.setToIdentity();
+    mx.setScalar(1, 1, cos(r.getX()));
+    mx.setScalar(1, 2, -sin(r.getX()));
+    mx.setScalar(2, 1, sin(r.getX()));
+    mx.setScalar(2, 2, cos(r.getX()));
+
+    Matrix3x3 my;
+    my.setToIdentity();
+    my.setScalar(0, 0, cos(r.getY()));
+    my.setScalar(0, 2, sin(r.getY()));
+    my.setScalar(2, 0, -sin(r.getY()));
+    my.setScalar(2, 2, cos(r.getY()));
+
+    Matrix3x3 mz;
+    mz.setToIdentity();
+    mz.setScalar(0, 0, cos(r.getZ()));
+    mz.setScalar(0, 1, -sin(r.getZ()));
+    mz.setScalar(1, 0, sin(r.getZ()));
+    mz.setScalar(1, 1, cos(r.getZ()));
+
+    return mx.multMatrix(my).multMatrix(mz);
 }
 
 void UGEEntity::drawPoint(AbstractRenderDevice *device, const ColorVector3D &point)

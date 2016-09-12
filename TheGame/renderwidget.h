@@ -31,6 +31,7 @@ protected:
 signals:
 
 public slots:
+    void animate();
 
 private:
     AbstractRenderDevice* _device;
@@ -39,13 +40,17 @@ private:
 
     QPoint _lastPoint;
 
-    float _radius;
+    double _radius;
 
-    float _phi;
+    double _phi;
 
-    float _theta;
+    double _theta;
 
     Vector3D pos;
+
+    double _angle;
+
+    UGEEntity* _entity;
 };
 
 #endif // RENDERWIDGET_H

@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QSharedPointer>
 #include "utils/vector3d.h"
+#include "utils/matrix3x3.h"
 #include "engine/abstractrenderdevice.h"
 
 class UGEEntity : public QObject
@@ -41,6 +42,8 @@ public:
     Vector3D getRealPoint(const Vector3D& pos);
     ColorVector3D getRealPoint(const ColorVector3D& pos);
     TextureVector3D getRealPoint(const TextureVector3D& pos);
+
+    Matrix3x3 getRotationMatrix(const Vector3D& rotation);
 
     virtual void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
 
