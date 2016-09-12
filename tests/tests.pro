@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = tests
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += \
     testvector3d.cpp \

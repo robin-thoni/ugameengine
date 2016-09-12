@@ -20,6 +20,9 @@ public:
 
     bool equal(const T& other) const;
 
+    T& fill(double k);
+    T& fill(double scalars[M][N]);
+
     T& add(double k);
     T& add(double scalars[M][N]);
     T& add(const T& other);
@@ -29,12 +32,42 @@ public:
     T& sub(const T& other);
 
     T& mult(double k);
-    uge_gm_tmpl_p MatrixMxN<M, P> mult(double scalars[N][P]);
-    uge_gm_tmpl_p MatrixMxN<M, P> mult(const MatrixMxN<N, P>& other);
+    T& mult(double scalars[M][N]);
+    T& mult(const T& other);
+    uge_gm_tmpl_p MatrixMxN<M, P> multMatrix(double scalars[N][P]);
+    uge_gm_tmpl_p MatrixMxN<M, P> multMatrix(const MatrixMxN<N, P>& other);
 
     T& div(double k);
     T& div(double scalars[M][N]);
     T& div(const T& other);
+
+    T operator+() const;
+    T operator+(const double& k) const;
+    T& operator+=(const double& k);
+    T operator+(const T& other) const;
+    T& operator+=(const T& other);
+
+    T operator-() const;
+    T operator-(const double& k) const;
+    T& operator-=(const double& k);
+    T operator-(const T& other) const;
+    T& operator-=(const T& other);
+
+    T operator*(const double& k) const;
+    T& operator*=(const double& k);
+    T operator*(const T& other) const;
+    T& operator*=(const T& other);
+
+    T operator/(const double& k) const;
+    T& operator/=(const double& k);
+    T operator/(const T& other) const;
+    T& operator/=(const T& other);
+
+    bool operator==(const T& other) const;
+    bool operator!=(const T& other) const;
+
+    bool operator!() const;
+    operator bool() const;
 
 protected:
     double _scalars[M][N];

@@ -1,51 +1,51 @@
 #include "vector2d.h"
 
-VectorXD<2>::VectorXD()
+Vector2D::MatrixMxN()
 {
-    _scalars[0] = 0.0;
-    _scalars[1] = 0.0;
+    _scalars[0][0] = 0.0;
+    _scalars[1][0] = 0.0;
 }
 
-VectorXD<2>::VectorXD(const double scalars[2])
+Vector2D::MatrixMxN(const double scalars[2])
 {
-    _scalars[0] = scalars[0];
-    _scalars[1] = scalars[1];
+    _scalars[0][0] = scalars[0];
+    _scalars[1][0] = scalars[1];
 }
 
-Vector2D::VectorXD(double x, double y)
+Vector2D::MatrixMxN(double x, double y)
 {
-    _scalars[0] = x;
-    _scalars[1] = y;
+    _scalars[0][0] = x;
+    _scalars[1][0] = y;
 }
 
-Vector2D::VectorXD(const VectorXD<2> &other)
+Vector2D::MatrixMxN(const Vector2D &other)
 {
-    _scalars[0] = other._scalars[0];
-    _scalars[1] = other._scalars[1];
+    _scalars[0][0] = other._scalars[0][0];
+    _scalars[1][0] = other._scalars[1][0];
 }
 
-Vector2D::~VectorXD()
+Vector2D::~MatrixMxN()
 {
 }
 
 double Vector2D::getX() const
 {
-    return _scalars[0];
+    return _scalars[0][0];
 }
 
 Vector2D& Vector2D::setX(double x)
 {
-    _scalars[0] = x;
+    _scalars[0][0] = x;
     return *this;
 }
 double Vector2D::getY() const
 {
-    return _scalars[1];
+    return _scalars[1][0];
 }
 
 Vector2D& Vector2D::setY(double y)
 {
-    _scalars[1] = y;
+    _scalars[1][0] = y;
     return *this;
 }
 

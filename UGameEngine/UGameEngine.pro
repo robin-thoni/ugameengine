@@ -9,6 +9,8 @@ QT       += gui core
 TARGET = UGameEngine
 TEMPLATE = lib
 
+CONFIG += c++11
+
 DEFINES += UGAMEENGINE_LIBRARY
 
 SOURCES += engine/ugameengine.cpp \

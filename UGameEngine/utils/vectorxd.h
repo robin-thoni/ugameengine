@@ -2,36 +2,19 @@
 #define VECTORXD_H
 
 #include <QDebug>
+#include "matrixmxn.h"
 
 #define tmplx template<unsigned X>
 #define tmpl template<unsigned X, class T>
 
-tmpl class GenericVector
+tmpl class GenericVector: public GenericMatrix<X, 1, T >
 {
 public:
 
+    using GenericMatrix<X, 1, T >::setScalar;
     T& setScalar(unsigned i, double value);
+    using GenericMatrix<X, 1, T >::getScalar;
     double getScalar(unsigned i) const;
-
-    bool isNull() const;
-
-    bool equal(const T& other) const;
-
-    T& add(double k);
-    T& add(double scalars[X]);
-    T& add(const T& other);
-
-    T& sub(double k);
-    T& sub(double scalars[X]);
-    T& sub(const T& other);
-
-    T& mult(double k);
-    T& mult(double scalars[X]);
-    T& mult(const T& other);
-
-    T& div(double k);
-    T& div(double scalars[X]);
-    T& div(const T& other);
 
     double dotProduct(const T& other) const;
 
@@ -40,54 +23,37 @@ public:
 
     double norm() const;
 
-    T operator+() const;
-    T operator+(const double& k) const;
-    T& operator+=(const double& k);
-    T operator+(const T& other) const;
-    T& operator+=(const T& other);
-
-    T operator-() const;
-    T operator-(const double& k) const;
-    T& operator-=(const double& k);
-    T operator-(const T& other) const;
-    T& operator-=(const T& other);
-
-    T operator*(const double& k) const;
-    T& operator*=(const double& k);
-    T operator*(const T& other) const;
-    T& operator*=(const T& other);
-
-    T operator/(const double& k) const;
-    T& operator/=(const double& k);
-
-    bool operator==(const T& other) const;
-    bool operator!=(const T& other) const;
-
     double operator[](unsigned i) const;
 
-    bool operator!() const;
-    operator bool() const;
-
 protected:
-    double _scalars[X];
+    using GenericMatrix<X, 1, T >::_scalars;
 
 private:
     T* getThis() const;
 };
 
-tmplx class VectorXD: public GenericVector<X, VectorXD<X> >
+tmplx using VectorXD = MatrixMxN<X, 1>;
+
+tmplx class MatrixMxN<X, 1>: public GenericVector<X, VectorXD<X>>
 {
 public:
-    VectorXD();
-    VectorXD(const double scalars[X]);
-    VectorXD(const VectorXD<X>& other);
+    MatrixMxN();
+    MatrixMxN(double k);
+    MatrixMxN(const double scalars[X]);
+    MatrixMxN(const VectorXD<X>& other);
 
 protected:
-    using GenericVector<X, VectorXD<X> >::_scalars;
+    using GenericMatrix<X, 1, VectorXD<X>>::_scalars;
 };
 
-tmplx QDebug operator<<(QDebug dbg, const VectorXD<X>& v);
+//tmplx QDebug operator<<(QDebug dbg, const VectorXD<X>& v);
 
 #include "vectorxd.hxx"
 
 #endif // VECTORXD_H
+
+
+
+
+
+

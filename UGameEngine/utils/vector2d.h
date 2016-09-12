@@ -3,16 +3,16 @@
 
 #include "vectorxd.h"
 
-typedef VectorXD<2> Vector2D;
+typedef MatrixMxN<2, 1> Vector2D;
 
-template<> class VectorXD<2> : public GenericVector<2, VectorXD<2> >
+template<> class MatrixMxN<2, 1> : public GenericVector<2, Vector2D>
 {
 public:
-    VectorXD<2>();
-    VectorXD<2>(const double scalars[2]);
-    VectorXD<2>(double x, double y);
-    VectorXD<2>(const VectorXD<2>& other);
-    virtual ~VectorXD<2>();
+    MatrixMxN<2, 1>();
+    MatrixMxN<2, 1>(const double scalars[2]);
+    MatrixMxN<2, 1>(double x, double y);
+    MatrixMxN<2, 1>(const Vector2D& other);
+    virtual ~MatrixMxN<2, 1>();
 
     double getX() const;
     Vector2D& setX(double x);
@@ -20,13 +20,13 @@ public:
     double getY() const;
     Vector2D& setY(double y);
 
-    using GenericVector<2, VectorXD<2> >::add;
+    using GenericVector<2, Vector2D>::add;
     Vector2D& add(double x, double y);
 
-    using GenericVector<2, VectorXD<2> >::sub;
+    using GenericVector<2, Vector2D>::sub;
     Vector2D& sub(double x, double y);
 
-    using GenericVector<2, VectorXD<2> >::dotProduct;
+    using GenericVector<2, Vector2D>::dotProduct;
     double dotProduct(double x, double y) const;
 };
 

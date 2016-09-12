@@ -16,6 +16,8 @@ private slots:
     void isNull1Op();
     void isNull2();
     void isNull2Op();
+
+    void mult1();
 };
 
 #endif // TESTMATRIX3X3_H
