@@ -14,14 +14,15 @@ DEFINES += UGAMEENGINE_LIBRARY
 SOURCES += engine/ugameengine.cpp \
     engine/abstractrenderdevice.cpp \
     entities/ugeentity.cpp \
-    utils/vector3d.cpp \
     utils/colorvector3d.cpp \
     entities/ugeentitycube.cpp \
     entities/ugeentityaxes.cpp \
     utils/wavefrontobj.cpp \
     entities/ugeentitywavefrontobj.cpp \
     utils/texturevector3d.cpp \
-    utils/vector2d.cpp
+    utils/vector2d.cpp \
+    utils/vector3d.cpp \
+    utils/matrix3x3.cpp
 
 HEADERS += engine/ugameengine.h\
     engine/abstractrenderdevice.h \
@@ -35,7 +36,10 @@ HEADERS += engine/ugameengine.h\
     utils/texturevector3d.h \
     utils/vectorxd.h \
     utils/vectorxd.hxx \
-    utils/vector2d.h
+    utils/vector2d.h \
+    utils/matrixmxn.h \
+    utils/matrixmxn.hxx \
+    utils/matrix3x3.h
 
 
 # FLEX && BISON

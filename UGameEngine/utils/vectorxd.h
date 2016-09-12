@@ -27,11 +27,11 @@ public:
 
     T& mult(double k);
     T& mult(double scalars[X]);
-    T& mult(const T& k);
+    T& mult(const T& other);
 
     T& div(double k);
     T& div(double scalars[X]);
-    T& div(const T& k);
+    T& div(const T& other);
 
     double dotProduct(const T& other) const;
 

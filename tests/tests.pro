@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += \
-    testvector3d.cpp
+    testvector3d.cpp \
+    testmatrix3x3.cpp \
+    main.cpp
 
-HEADERS  +=
+HEADERS  += \
+    testvector3d.h \
+    testmatrix3x3.h
 
 FORMS    +=
 
