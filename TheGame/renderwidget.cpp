@@ -12,29 +12,28 @@ RenderWidget::RenderWidget(QWidget *parent) :
   , _radius(5.0)
   , _phi(45.0)
   , _theta(45.0)
-  , _angle(0.0)
 {
+    setMouseTracking(true);
+    setFocusPolicy(Qt::StrongFocus);
+
     _device = new OpenGLRenderDevice(this);
     _engine = new UGameEngine(_device);
+
+    _engine->addEntity(new UGEEntityAxes(_engine));
 
     UGEEntityCube* cube = new UGEEntityCube(_engine);
     cube->setTextureId("test");
     cube->rotate(Vector3D(0.0, 45.0, 45.0));
     cube->move(Vector3D(0, 1, 0));
     cube->setScale(Vector3D(1.0, 2.0, 1.0));
-//    cube->hide();
+    cube->hide();
     _engine->addEntity(cube);
-    _engine->addEntity(new UGEEntityAxes(_engine));
-    setMouseTracking(true);
-    setFocusPolicy(Qt::StrongFocus);
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
-
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
-    obj->hide();
-
+//    obj->hide();
     _entity = cube;
 //    animate();
 }

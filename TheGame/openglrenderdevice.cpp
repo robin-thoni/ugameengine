@@ -44,16 +44,16 @@ void OpenGLRenderDevice::loadTexture(const QVariant &id, const QImage &texture)
     OpenGLTextureData data;
     data.id = 0;
     data.image = texture;
-    data.rawData = new char[texture.width() * texture.height() * 4];
+    char rawData[texture.width() * texture.height() * 4];
 
     for (int y = 0; y < texture.height(); ++y) {
         for(int x = 0; x < texture.width(); ++x) {
             int p = (y * texture.height() * 4) + x * 4;
             QColor px = QColor(texture.pixel(x, y));
-            data.rawData[p] = px.red();
-            data.rawData[p + 1] = px.green();
-            data.rawData[p + 2] = px.blue();
-            data.rawData[p + 3] = 255;
+            rawData[p] = px.red();
+            rawData[p + 1] = px.green();
+            rawData[p + 2] = px.blue();
+            rawData[p + 3] = 255;
         }
     }
 
@@ -61,7 +61,7 @@ void OpenGLRenderDevice::loadTexture(const QVariant &id, const QImage &texture)
     glGenTextures(1, &data.id);
     glBindTexture(GL_TEXTURE_2D, data.id);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width(), texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.rawData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width(), texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, rawData);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

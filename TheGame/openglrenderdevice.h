@@ -7,7 +7,6 @@ struct OpenGLTextureData
 {
     unsigned id;
     QImage image;
-    char* rawData;
 };
 
 class OpenGLRenderDevice : public AbstractRenderDevice

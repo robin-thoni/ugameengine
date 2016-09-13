@@ -51,8 +51,10 @@ HEADERS += engine/ugameengine.h\
 
 LIBS += -lfl -ly
 
-FLEXSOURCES = utils/lexer-wavefront-obj.l
-BISONSOURCES = utils/parser-wavefront-obj.y
+FLEXSOURCES = utils/lexer-wavefront-obj.l \
+    utils/lexer-wavefront-mtl.l
+BISONSOURCES = utils/parser-wavefront-obj.y \
+    utils/parser-wavefront-mtl.y
 
 OTHER_FILES +=  \
     $$FLEXSOURCES \

@@ -48,8 +48,6 @@ private:
 
     Vector3D pos;
 
-    double _angle;
-
     UGEEntity* _entity;
 };
 

@@ -7,16 +7,16 @@
 // Also, we must add the parser's header where are defined the tokens.
 #include "utils/vector3d.h"
 #include "utils/wavefrontobj.h"
-#include "parser-wavefront-obj.h"
+#include "parser-wavefront-mtl.h"
 
 #define TOKEN(type) \
-  TOK_WFOBJ_##type
+  TOK_WFMTL_##type
 
 %}
 
 %option noyywrap
 %option nounput
-%option prefix="wavefront_obj"
+%option prefix="wavefront_mtl"
 
 %%
 
@@ -24,7 +24,7 @@
 [ \t]+       {                           }
 
  /* Newline */
-\n|\n\r      { ++wavefront_objlineno;    }
+\n|\n\r      { ++wavefront_mtllineno;    }
 
  /* Comment */
 "#"[^\n\r]*  {                        }
@@ -60,10 +60,10 @@
 "/"     { return TOKEN(SLASH);  }
 
  /* Number */
--?[0-9]+(.[0-9]+)?     { wavefront_objlval.number=atof(yytext); return TOKEN(NUMBER); }
+-?[0-9]+(.[0-9]+)?     { wavefront_mtllval.number=atof(yytext); return TOKEN(NUMBER); }
 
  /* String */
-[^\n\r\t ]+  { wavefront_objlval.string = strcpy((char*)malloc(strlen(yytext) + 1), yytext); return TOKEN(STRING);  }
+[^\n\r\t ]+  { wavefront_mtllval.string = strcpy((char*)malloc(strlen(yytext) + 1), yytext); return TOKEN(STRING);  }
 
 
 %%

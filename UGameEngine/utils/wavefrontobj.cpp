@@ -3,13 +3,15 @@
 #include <QDebug>
 #include "lexer-wavefront-obj.h"
 #include "parser-wavefront-obj.h"
+#include "lexer-wavefront-mtl.h"
+#include "parser-wavefront-mtl.h"
 
 WaveFrontObj::WaveFrontObj(QObject *parent) :
     QObject(parent)
 {
 }
 
-QList<QList<int> > WaveFrontObj::getFaces() const
+QList<QList<WaveFrontObjFaceVertex> > WaveFrontObj::getFaces() const
 {
     return _faces;
 }
@@ -42,15 +44,14 @@ bool WaveFrontObj::load(QIODevice &device)
     wavefront_obj_delete_buffer(bufferState);
     if (res) {
         qDebug() << _error;
+        return false;
     }
     else {
-        qDebug() << "faces:" << _faces.size() << "vertexes" << _vertexes.size();
+        return true;
     }
-
-    return res == 0;
 }
 
-void WaveFrontObj::addFace(QList<int> face)
+void WaveFrontObj::addFace(QList<WaveFrontObjFaceVertex> face)
 {
     _faces.append(face);
 }
