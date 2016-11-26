@@ -56,7 +56,6 @@ void FreeFlyCamera::keyReleaseEvent(QKeyEvent *event)
 void FreeFlyCamera::updateLookAt()
 {
     Vector3D perp(_direction.getZ(), 0, -_direction.getX());
-    qDebug() << perp.getX() << perp.getY() << perp.getZ() << perp.norm() << _direction.getX() << _direction.getY() << _direction.getZ() << _direction.norm();
     perp /= perp.norm();
     _position += Vector3D(_direction * _speedVector.getX()).mult(_speed);
     _position += Vector3D(perp * _speedVector.getY()).mult(_speed);
