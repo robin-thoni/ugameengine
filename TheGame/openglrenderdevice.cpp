@@ -117,6 +117,7 @@ void OpenGLRenderDevice::resize(int width, int height)
 {
     _width = width;
     _height = height;
+//    glViewport(0, 0, _width, _height);
     int side = qMin(_width, _height);
     glViewport((_width - side) / 2, (_height - side) / 2, side, side);
 }
@@ -164,6 +165,12 @@ void OpenGLRenderDevice::drawLine(const ColorVector3D &begin, const ColorVector3
 void OpenGLRenderDevice::drawPolygon(const QList<ColorVector3D> &points)
 {
     glBegin(GL_POLYGON);
+    Vector3D p1 = points[0];
+//    Vector3D p2 = points[1];
+//    Vector3D n = p1.crossProduct(p2);
+//    Vector3D n2 = p2.crossProduct(p1);
+//    qDebug() << n.getX() << n.getY() << n.getZ() << n2.getX() << n2.getY() << n2.getZ();
+//    glNormal3d(n.getX(), n.getY(), n.getZ());
     for (int i = 0; i < points.size(); ++i) {
         drawVertex(points[i]);
     }
