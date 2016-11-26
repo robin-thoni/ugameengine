@@ -43,7 +43,9 @@ public:
     ColorVector3D getRealPoint(const ColorVector3D& pos);
     TextureVector3D getRealPoint(const TextureVector3D& pos);
 
-    Matrix3x3 getRotationMatrix(const Vector3D& rotation);
+    Matrix3x3 getTransformationMatrix() const;
+    Matrix3x3 getScaleMatrix() const;
+    Matrix3x3 getRotationMatrix() const;
 
     virtual void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
 

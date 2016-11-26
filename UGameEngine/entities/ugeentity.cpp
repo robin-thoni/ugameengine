@@ -123,13 +123,8 @@ void UGEEntity::setColor(const QColor &color)
 
 Vector3D UGEEntity::getRealPoint(const Vector3D &pos)
 {
-    Matrix3x3 scale;
-    scale.setScalar(0, 0, _scale.getX());
-    scale.setScalar(1, 1, _scale.getY());
-    scale.setScalar(2, 2, _scale.getZ());
-    Vector3D p = scale.multMatrix(pos);
-    Matrix3x3 rot = getRotationMatrix(_rotation);
-    return (rot.multMatrix(p) + _position);
+    Matrix3x3 trans = getTransformationMatrix();
+    return (trans.multMatrix(pos) + _position);
 }
 
 ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
@@ -142,9 +137,23 @@ TextureVector3D UGEEntity::getRealPoint(const TextureVector3D &pos)
     return TextureVector3D(pos.getTextureCoord(), getRealPoint((ColorVector3D)pos));
 }
 
-Matrix3x3 UGEEntity::getRotationMatrix(const Vector3D &rotation)
+Matrix3x3 UGEEntity::getTransformationMatrix() const
 {
-    Vector3D r = Tools::degreeToRad(rotation);
+    return getRotationMatrix().multMatrix(getScaleMatrix());
+}
+
+Matrix3x3 UGEEntity::getScaleMatrix() const
+{
+    Matrix3x3 scale;
+    scale.setScalar(0, 0, _scale.getX());
+    scale.setScalar(1, 1, _scale.getY());
+    scale.setScalar(2, 2, _scale.getZ());
+    return scale;
+}
+
+Matrix3x3 UGEEntity::getRotationMatrix() const
+{
+    Vector3D r = Tools::degreeToRad(_rotation);
 
     Matrix3x3 mx;
     mx.setToIdentity();
