@@ -48,7 +48,7 @@ private:
 
     Vector3D pos;
 
-    UGEEntity* _entity;
+    QList<UGEEntity*> _entities;
 };
 
 #endif // RENDERWIDGET_H

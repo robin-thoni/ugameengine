@@ -21,21 +21,25 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     _engine->addEntity(new UGEEntityAxes(_engine));
 
-    UGEEntityCube* cube = new UGEEntityCube(_engine);
-    cube->setTextureId("test");
-    cube->rotate(Vector3D(0.0, 45.0, 45.0));
-    cube->move(Vector3D(0, 1, 0));
-    cube->setScale(Vector3D(1.0, 2.0, 1.0));
-    cube->hide();
-    _engine->addEntity(cube);
+    for (int i = 0; i < 100; ++i) {
+        UGEEntityCube* cube = new UGEEntityCube(_engine);
+        cube->setTextureId("test");
+        cube->rotate(Vector3D(0.0, 45.0, 45.0));
+        cube->move(Vector3D(0, i, i));
+        cube->setScale(Vector3D(1.0, 2.0, 1.0));
+    //    cube->hide();
+        _engine->addEntity(cube);
+        _entities.append(cube);
+    }
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
+    _entities.append(obj);
 //    obj->hide();
-    _entity = cube;
-//    animate();
+//    _entity = cube;
+    animate();
 }
 
 void RenderWidget::initializeGL()
@@ -141,7 +145,9 @@ void RenderWidget::rotate(float phi, float theta)
 void RenderWidget::animate()
 {
 //    _angle += 0.1;
-    _entity->rotate(Vector3D(0.0, 2.0, 2.0));
+    for (int i = 0; i < _entities.size(); ++i) {
+        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
+    }
     QTimer::singleShot(20, this, SLOT(animate()));
     update();
 }
