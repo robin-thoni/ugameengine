@@ -46,8 +46,6 @@ protected:
     using GenericMatrix<X, 1, VectorXD<X>>::_scalars;
 };
 
-//tmplx QDebug operator<<(QDebug dbg, const VectorXD<X>& v);
-
 #include "vectorxd.hxx"
 
 #endif // VECTORXD_H

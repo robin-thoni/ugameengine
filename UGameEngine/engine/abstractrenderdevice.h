@@ -30,7 +30,7 @@ public:
     virtual Vector3D get3DFrom2D(int x, int y) = 0;
 
 public slots:
-    virtual void setClearColor(const QColor &getClearColor);
+    virtual void setClearColor(const QColor &clearColor);
 
     virtual void setCurrentColor(const QColor &color);
 

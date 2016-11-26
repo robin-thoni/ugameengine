@@ -25,7 +25,10 @@ SOURCES += engine/ugameengine.cpp \
     utils/vector2d.cpp \
     utils/vector3d.cpp \
     utils/matrix3x3.cpp \
-    utils/tools.cpp
+    utils/tools.cpp \
+    cameras/abstractcamera.cpp \
+    cameras/rotationcamera.cpp \
+    cameras/freeflycamera.cpp
 
 HEADERS += engine/ugameengine.h\
     engine/abstractrenderdevice.h \
@@ -44,7 +47,12 @@ HEADERS += engine/ugameengine.h\
     utils/matrixmxn.hxx \
     utils/matrix3x3.h \
     utils/tools.h \
-    utils/tools.hxx
+    utils/tools.hxx \
+    cameras/abstractcamera.h \
+    cameras/rotationcamera.h \
+    cameras/freeflycamera.h \
+    utils/matrixdebug.h \
+    utils/matrixdebug.hxx
 
 
 # FLEX && BISON

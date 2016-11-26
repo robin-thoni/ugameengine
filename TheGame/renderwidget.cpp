@@ -6,18 +6,17 @@
 #include "entities/ugeentityaxes.h"
 #include "utils/wavefrontobj.h"
 #include "entities/ugeentitywavefrontobj.h"
+#include "cameras/rotationcamera.h"
+#include "cameras/freeflycamera.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
-  , _radius(5.0)
-  , _phi(45.0)
-  , _theta(45.0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
-    _device = new OpenGLRenderDevice(this);
-    _engine = new UGameEngine(_device);
+    _engine = new UGameEngine(new OpenGLRenderDevice(this));
+    _camera = new FreeFlyCamera(_engine, this);
 
     _engine->addEntity(new UGEEntityAxes(_engine));
 
@@ -27,7 +26,6 @@ RenderWidget::RenderWidget(QWidget *parent) :
         cube->rotate(Vector3D(0.0, 45.0, 45.0));
         cube->move(Vector3D(0, i, i));
         cube->setScale(Vector3D(1.0, 2.0, 1.0));
-    //    cube->hide();
         _engine->addEntity(cube);
         _entities.append(cube);
     }
@@ -37,30 +35,21 @@ RenderWidget::RenderWidget(QWidget *parent) :
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
     _entities.append(obj);
-//    obj->hide();
-//    _entity = cube;
     animate();
 }
 
 void RenderWidget::initializeGL()
 {
     makeCurrent();
-    _device->setClearColor(Qt::gray);
-    _device->initialize(70, width(), height());
+    _engine->setClearColor(Qt::gray);
+    _engine->initialize(70, width(), height());
 
-    _device->loadTextureFromFile("test", "/home/robin/Downloads/test.png");
+    _engine->loadTextureFromFile("test", "/home/robin/Downloads/test.png");
 }
 
 void RenderWidget::paintGL()
 {
-    float theta = fabs(_theta / 180.0 * M_PI);
-    float phi = _phi / 180.0 * M_PI;
-    Vector3D center = Vector3D(
-                _radius * sin(theta) * sin(phi),
-                _radius * cos(theta),
-                _radius * sin(theta) * cos(phi)
-                );
-    _device->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
+    _camera->updateLookAt();
     _engine->draw();
 //    _device->drawLine(ColorVector3D(Qt::black, 0, 0, 0), ColorVector3D(Qt::black, pos));
 //    _device->drawPoint(ColorVector3D(Qt::magenta, 0.5, 0.5, 0.5));
@@ -68,35 +57,22 @@ void RenderWidget::paintGL()
 
 void RenderWidget::resizeGL(int width, int height)
 {
-    _device->resize(width, height);
-}
-
-float RenderWidget::normalizeAngle(float angle)
-{
-    while (angle >= 360.0) {
-        angle -= 360.0;
-    }
-    while (angle < 0.0) {
-        angle += 360.0;
-    }
-    return angle;
+    _engine->resize(width, height);
 }
 
 void RenderWidget::mousePressEvent(QMouseEvent *event)
 {
-    _lastPoint = event->pos();
+    _camera->mousePressEvent(event);
+}
+
+void RenderWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    _camera->mouseReleaseEvent(event);
 }
 
 void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() & Qt::LeftButton) {
-        QPoint diff = event->pos() - _lastPoint;
-
-        rotate(-diff.x(), -diff.y());
-
-        _lastPoint = event->pos();
-        update();
-    }
+    _camera->mouseMoveEvent(event);
 
 //    Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
 //    dd.setY(height() - dd.getY());
@@ -105,49 +81,31 @@ void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 
 }
 
+void RenderWidget::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    _camera->mouseDoubleClickEvent(event);
+}
+
 void RenderWidget::wheelEvent(QWheelEvent *event)
 {
-    _radius = qMax(2.0, _radius - event->delta() / 30.0);
-    update();
+    _camera->wheelEvent(event);
 }
 
 void RenderWidget::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Up) {
-        rotate(0.0, 1.0);
-    }
-    else if (event->key() == Qt::Key_Down) {
-        rotate(0.0, -1.0);
-    }
-    else if (event->key() == Qt::Key_Left) {
-        rotate(1.0, 0.0);
-    }
-    else if (event->key() == Qt::Key_Right) {
-        rotate(-1.0, 0.0);
-    }
+    _camera->keyPressEvent(event);
 }
 
-void RenderWidget::rotate(float phi, float theta)
+void RenderWidget::keyReleaseEvent(QKeyEvent *event)
 {
-    _phi = normalizeAngle(_phi + phi);
-    if (_theta + theta >= 180.0) {
-        theta = 179.0;
-    }
-    else if (_theta + theta < 1.0) {
-        theta = 1.0;
-    }
-    else {
-        _theta = normalizeAngle(_theta + theta);
-    }
-    update();
+    _camera->keyReleaseEvent(event);
 }
 
 void RenderWidget::animate()
 {
-//    _angle += 0.1;
-    for (int i = 0; i < _entities.size(); ++i) {
-        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
-    }
+//    for (int i = 0; i < _entities.size(); ++i) {
+//        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
+//    }
     QTimer::singleShot(20, this, SLOT(animate()));
     update();
 }

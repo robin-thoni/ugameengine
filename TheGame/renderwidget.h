@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 #include "engine/ugameengine.h"
 #include "openglrenderdevice.h"
+#include "cameras/abstractcamera.h"
 
 class RenderWidget : public QGLWidget
 {
@@ -19,14 +20,13 @@ protected:
     void paintGL();
     void resizeGL(int width, int height);
 
-    float normalizeAngle(float angle);
-
     void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent* event);
+    void mouseDoubleClickEvent(QMouseEvent* event);
     void wheelEvent(QWheelEvent* event);
     void keyPressEvent(QKeyEvent* event);
-
-    void rotate(float phi, float theta);
+    void keyReleaseEvent(QKeyEvent* event);
 
 signals:
 
@@ -34,21 +34,13 @@ public slots:
     void animate();
 
 private:
-    AbstractRenderDevice* _device;
-
     UGameEngine* _engine;
-
-    QPoint _lastPoint;
-
-    double _radius;
-
-    double _phi;
-
-    double _theta;
 
     Vector3D pos;
 
     QList<UGEEntity*> _entities;
+
+    AbstractCamera* _camera;
 };
 
 #endif // RENDERWIDGET_H

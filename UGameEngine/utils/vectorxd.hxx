@@ -78,8 +78,3 @@ uge_gv_tmpl_xt T* GenericVector<X, T>::getThis() const
 {
     return (T*)this;
 }
-
-//uge_gv_tmpl_xt QDebug operator<<(QDebug dbg, const T &v)
-//{
-//    return dbg.nospace() << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
-//}
