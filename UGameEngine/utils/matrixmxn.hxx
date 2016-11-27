@@ -51,7 +51,7 @@ uge_gm_tmpl_mnt bool GenericMatrix<M, N, T>::equal(const T &other) const
 {
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            if (_scalars[i][j] != other._scalars[i][j]) {
+            if (_scalars[i][j] != other.getScalar(i, j)) {
                 return false;
             }
         }
@@ -103,7 +103,7 @@ uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::add(const T &other)
 {
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            _scalars[i][j] += other._scalars[i][j];
+            _scalars[i][j] += other.getScalar(i, j);
         }
     }
     return *getThis();
@@ -123,7 +123,7 @@ uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::sub(const T &other)
 {
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            _scalars[i][j] -= other._scalars[i][j];
+            _scalars[i][j] -= other.getScalar(i, j);
         }
     }
     return *getThis();
@@ -148,7 +148,7 @@ uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::mult(const T &other)
 {
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            _scalars[i][j] *= other._scalars[i][j];
+            _scalars[i][j] *= other.getScalar(i, j);
         }
     }
     return *getThis();
@@ -190,7 +190,7 @@ uge_gm_tmpl_mnt T &GenericMatrix<M, N, T>::div(const T &other)
 {
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
-            _scalars[i][j] /= other._scalars[i][j];
+            _scalars[i][j] /= other.getScalar(i, j);
         }
     }
     return *getThis();

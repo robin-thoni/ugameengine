@@ -24,7 +24,12 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
+unix:!macx {
 LIBS += -lGLU
+}
+macx:{
+LIBS += -framework OpenGL
+}
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../UGameEngine/release/ -lUGameEngine
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../UGameEngine/debug/ -lUGameEngine

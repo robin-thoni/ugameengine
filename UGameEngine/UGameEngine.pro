@@ -57,7 +57,13 @@ HEADERS += engine/ugameengine.h\
 
 # FLEX && BISON
 
-LIBS += -lfl -ly
+LIBS += -ly
+unix:!macx {
+LIBS += -lfl
+}
+macx:{
+LIBS += -ll
+}
 
 FLEXSOURCES = utils/lexer-wavefront-obj.l \
     utils/lexer-wavefront-mtl.l
