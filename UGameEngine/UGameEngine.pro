@@ -6,6 +6,8 @@
 
 QT       += gui core
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = UGameEngine
 TEMPLATE = lib
 
