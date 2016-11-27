@@ -170,7 +170,7 @@ void OpenGLRenderDevice::drawLine(const ColorVector3D &begin, const ColorVector3
 void OpenGLRenderDevice::drawPolygon(const QList<ColorVector3D> &points)
 {
     glBegin(GL_POLYGON);
-    Vector3D p1 = points[0];
+//    Vector3D p1 = points[0];
 //    Vector3D p2 = points[1];
 //    Vector3D n = p1.crossProduct(p2);
 //    Vector3D n2 = p2.crossProduct(p1);
@@ -188,8 +188,9 @@ void OpenGLRenderDevice::drawPolygonTexture(const QList<TextureVector3D> &points
     glBindTexture(GL_TEXTURE_2D, data.id);
     glBegin(GL_POLYGON);
     for (int i = 0; i < points.size(); ++i) {
-        TextureVector3D p = points[i];
-        glTexCoord2d(p.getTextureCoord().getX(), p.getTextureCoord().getY());
+        const TextureVector3D& p = points[i];
+        const Vector2D& coord = p.getTextureCoord();
+        glTexCoord2d(coord.getX(), coord.getY());
         drawVertex(p);
     }
     glEnd();

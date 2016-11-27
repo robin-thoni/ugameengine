@@ -46,7 +46,7 @@ TextureVector3D::~TextureVector3D()
 {
 }
 
-Vector2D TextureVector3D::getTextureCoord() const
+const Vector2D &TextureVector3D::getTextureCoord() const
 {
     return _textureCoord;
 }

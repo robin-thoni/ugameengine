@@ -16,7 +16,7 @@ public:
     TextureVector3D(const TextureVector3D& other);
     virtual ~TextureVector3D();
 
-    Vector2D getTextureCoord() const;
+    const Vector2D& getTextureCoord() const;
     void setTextureCoord(const Vector2D &textureCoord);
 
 private:

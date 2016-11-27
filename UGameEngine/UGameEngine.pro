@@ -30,7 +30,8 @@ SOURCES += engine/ugameengine.cpp \
     utils/tools.cpp \
     cameras/abstractcamera.cpp \
     cameras/rotationcamera.cpp \
-    cameras/freeflycamera.cpp
+    cameras/freeflycamera.cpp \
+    engine/entitiesupdatethread.cpp
 
 HEADERS += engine/ugameengine.h\
     engine/abstractrenderdevice.h \
@@ -54,7 +55,8 @@ HEADERS += engine/ugameengine.h\
     cameras/rotationcamera.h \
     cameras/freeflycamera.h \
     utils/matrixdebug.h \
-    utils/matrixdebug.hxx
+    utils/matrixdebug.hxx \
+    engine/entitiesupdatethread.h
 
 
 # FLEX && BISON

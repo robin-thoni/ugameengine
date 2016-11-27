@@ -3,6 +3,9 @@
 
 #include "abstractrenderdevice.h"
 #include "entities/ugeentity.h"
+#include "entitiesupdatethread.h"
+
+class EntitiesUpdateThread;
 
 class UGameEngine : public QObject
 {
@@ -11,7 +14,13 @@ public:
     UGameEngine(AbstractRenderDevice* device);
     virtual ~UGameEngine();
 
+    void update();
+
     void draw();
+
+    const QList<UGEEntity*>& getEntities() const;
+
+    UGEEntity *getEntity(int i) const;
 
 public slots:
     void addEntity(UGEEntity* entity);
@@ -30,6 +39,8 @@ protected:
     QList<UGEEntity*> _entitites;
 
     AbstractRenderDevice* _device;
+
+    QList<EntitiesUpdateThread*> _entitiesUpdateThreads;
 };
 
 #endif // UGAMEENGINE_H

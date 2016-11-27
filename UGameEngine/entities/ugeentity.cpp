@@ -5,7 +5,12 @@ UGEEntity::UGEEntity(QObject *parent)
     : QObject(parent)
     , _scale(1.0, 1.0, 1.0)
     , _visible(true)
+    , _needUpdate(true)
 {
+    connect(this, SIGNAL(positionChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(rotationChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(scaleChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(colorChanged()), this, SLOT(needUpdate()));
 }
 
 UGEEntity::~UGEEntity()
@@ -109,7 +114,7 @@ void UGEEntity::hide()
     emit visibilityChanged(_visible);
 }
 
-QColor UGEEntity::getColor() const
+const QColor& UGEEntity::getColor() const
 {
     return _color;
 }
@@ -123,8 +128,7 @@ void UGEEntity::setColor(const QColor &color)
 
 Vector3D UGEEntity::getRealPoint(const Vector3D &pos)
 {
-    Matrix3x3 trans = getTransformationMatrix();
-    return (trans.multMatrix(pos) + _position);
+    return (_tranformation.multMatrix(pos) + _position);
 }
 
 ColorVector3D UGEEntity::getRealPoint(const ColorVector3D &pos)
@@ -203,4 +207,28 @@ void UGEEntity::drawPolygonTexture(AbstractRenderDevice *device, QList<TextureVe
         points[i] = getRealPoint(points[i]);
     }
     device->drawPolygonTexture(points, textureId);
+}
+
+void UGEEntity::draw(AbstractRenderDevice *device)
+{
+    onDraw(device);
+}
+
+void UGEEntity::update()
+{
+    if (_needUpdate) {
+        _tranformation = getTransformationMatrix();
+        onUpdate();
+        _needUpdate = false;
+    }
+}
+
+void UGEEntity::onUpdate()
+{
+
+}
+
+void UGEEntity::needUpdate()
+{
+    _needUpdate = true;
 }

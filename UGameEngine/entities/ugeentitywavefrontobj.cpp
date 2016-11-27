@@ -6,7 +6,7 @@ UGEEntityWaveFrontObj::UGEEntityWaveFrontObj(WaveFrontObj *obj, QObject *parent)
 {
 }
 
-void UGEEntityWaveFrontObj::draw(AbstractRenderDevice *device)
+void UGEEntityWaveFrontObj::onDraw(AbstractRenderDevice *device)
 {
     QList<QList<WaveFrontObjFaceVertex> > faces = _obj->getFaces();
     QList<Vector3D> vertexes = _obj->getVertexes();

@@ -4,10 +4,8 @@ UGEEntityCube::UGEEntityCube(QObject *parent)
     : UGEEntity(parent)
     , _size(1.0)
 {
-    updateFaces();
-    connect(this, SIGNAL(colorChanged()), this, SLOT(updateFaces()));
-    connect(this, SIGNAL(sizeChanged()), this, SLOT(updateFaces()));
-    connect(this, SIGNAL(textureChanged()), this, SLOT(updateFaces()));
+    connect(this, SIGNAL(sizeChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(textureChanged()), this, SLOT(needUpdate()));
 }
 
 double UGEEntityCube::getSize() const
@@ -15,16 +13,18 @@ double UGEEntityCube::getSize() const
     return _size;
 }
 
-void UGEEntityCube::draw(AbstractRenderDevice *device)
+void UGEEntityCube::onDraw(AbstractRenderDevice *device)
 {
     if (!_facesColor.empty()) {
         for (int i = 0; i < _facesColor.size(); ++i) {
-            drawPolygon(device, _facesColor[i]);
+//            drawPolygon(device, _facesColor[i]);
+            device->drawPolygon(_facesColor[i]);
         }
     }
     else {
         for (int i = 0; i < _facesTexture.size(); ++i) {
-            drawPolygonTexture(device, _facesTexture[i], _textureId);
+//            drawPolygonTexture(device, _facesTexture[i], _textureId);
+            device->drawPolygonTexture(_facesTexture[i], _textureId);
         }
     }
 }
@@ -56,17 +56,19 @@ void UGEEntityCube::setTextureId(const QVariant &textureId)
     emit textureChanged(_textureId);
 }
 
-void UGEEntityCube::updateFaces()
+void UGEEntityCube::onUpdate()
 {
-    _facesColor.clear();
-    _facesTexture.clear();
     double r = _size / 2;
     if (_textureId.isNull()) {
+        _facesColor.clear();
         QList<ColorVector3D> points;
         points << ColorVector3D(getColor(), -r, -r, r)  << ColorVector3D(getColor(), -r, r, r)
                << ColorVector3D(getColor(), r, r, r)    << ColorVector3D(getColor(), r, -r, r)
                << ColorVector3D(getColor(), -r, -r, -r) << ColorVector3D(getColor(), -r, r, -r)
                << ColorVector3D(getColor(), r, r, -r)   << ColorVector3D(getColor(), r, -r, -r);
+        for (int i = 0; i < points.size(); ++i) {
+            points[i] = getRealPoint(points[i]);
+        }
         _facesColor.append(QList<ColorVector3D>() << points[3] << points[2] << points[1] << points[0]);
         _facesColor.append(QList<ColorVector3D>() << points[2] << points[3] << points[7] << points[6]);
         _facesColor.append(QList<ColorVector3D>() << points[6] << points[7] << points[4] << points[5]);
@@ -75,6 +77,7 @@ void UGEEntityCube::updateFaces()
         _facesColor.append(QList<ColorVector3D>() << points[4] << points[7] << points[3] << points[0]);
     }
     else {
+        _facesTexture.clear();
         _facesTexture.append(QList<TextureVector3D>() << TextureVector3D(Vector2D(0.25, 0.50), getColor(), r, -r, r)
                              << TextureVector3D(Vector2D(0.25, 0.25), getColor(), r, r, r)
                              << TextureVector3D(Vector2D(0.00, 0.25), getColor(), -r, r, r)
@@ -99,5 +102,11 @@ void UGEEntityCube::updateFaces()
                              << TextureVector3D(Vector2D(0.50, 0.50), getColor(), r, -r, -r)
                              << TextureVector3D(Vector2D(0.25, 0.5), getColor(), r, -r, r)
                              << TextureVector3D(Vector2D(0.25, 0.75), getColor(), -r, -r, r));
+        for (int i = 0; i < _facesTexture.size(); ++i) {
+            QList<TextureVector3D>& face = _facesTexture[i];
+            for (int j = 0; j < face.size(); ++j) {
+                face[j] = getRealPoint(face[j]);
+            }
+        }
     }
 }

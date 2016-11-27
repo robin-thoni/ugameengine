@@ -20,12 +20,12 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     _engine->addEntity(new UGEEntityAxes(_engine));
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 1000; ++i) {
         UGEEntityCube* cube = new UGEEntityCube(_engine);
         cube->setTextureId("test");
         cube->rotate(Vector3D(0.0, 45.0, 45.0));
         cube->move(Vector3D(0, i, i));
-        cube->setScale(Vector3D(1.0, 2.0, 1.0));
+//        cube->setScale(Vector3D(1.0, 2.0, 1.0));
         _engine->addEntity(cube);
         _entities.append(cube);
     }
@@ -103,9 +103,9 @@ void RenderWidget::keyReleaseEvent(QKeyEvent *event)
 
 void RenderWidget::animate()
 {
-//    for (int i = 0; i < _entities.size(); ++i) {
-//        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
-//    }
+    for (int i = 0; i < _entities.size(); ++i) {
+        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
+    }
     QTimer::singleShot(20, this, SLOT(animate()));
     update();
 }

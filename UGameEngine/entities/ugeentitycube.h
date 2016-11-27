@@ -13,7 +13,8 @@ public:
 
     QVariant getTextureId() const;
 
-    virtual void draw(AbstractRenderDevice* device);
+    virtual void onDraw(AbstractRenderDevice* device);
+    void onUpdate();
 
 signals:
     void sizeChanged();
@@ -27,9 +28,6 @@ public slots:
     void increaseSize(double size);
 
     void setTextureId(const QVariant &textureId);
-
-private slots:
-    void updateFaces();
 
 private:
     double _size;

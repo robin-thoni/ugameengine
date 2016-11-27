@@ -9,7 +9,7 @@ class UGEEntityAxes : public UGEEntity
 public:
     explicit UGEEntityAxes(QObject *parent = 0);
 
-    virtual void draw(AbstractRenderDevice* device);
+    virtual void onDraw(AbstractRenderDevice* device);
 
 signals:
 

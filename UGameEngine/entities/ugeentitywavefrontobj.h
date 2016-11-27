@@ -10,7 +10,7 @@ class UGEEntityWaveFrontObj : public UGEEntity
 public:
     explicit UGEEntityWaveFrontObj(WaveFrontObj* obj, QObject *parent = 0);
 
-    virtual void draw(AbstractRenderDevice* device);
+    virtual void onDraw(AbstractRenderDevice* device);
 
 signals:
 

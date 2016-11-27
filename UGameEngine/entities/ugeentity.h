@@ -36,7 +36,7 @@ public:
     void show();
     void hide();
 
-    QColor getColor() const;
+    const QColor &getColor() const;
     void setColor(const QColor &color);
 
     Vector3D getRealPoint(const Vector3D& pos);
@@ -47,15 +47,25 @@ public:
     Matrix3x3 getScaleMatrix() const;
     Matrix3x3 getRotationMatrix() const;
 
-    virtual void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
+    void drawPoint(AbstractRenderDevice* device, const ColorVector3D& point);
 
-    virtual void drawLine(AbstractRenderDevice* device, const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0);
+    void drawLine(AbstractRenderDevice* device, const ColorVector3D& begin, const ColorVector3D& end, double width = 1.0);
 
-    virtual void drawPolygon(AbstractRenderDevice* device, QList<ColorVector3D> points);
+    void drawPolygon(AbstractRenderDevice* device, QList<ColorVector3D> points);
 
-    virtual void drawPolygonTexture(AbstractRenderDevice *device, QList<TextureVector3D> points, const QVariant& textureId);
+    void drawPolygonTexture(AbstractRenderDevice *device, QList<TextureVector3D> points, const QVariant& textureId);
 
-    virtual void draw(AbstractRenderDevice* device) = 0;
+    void draw(AbstractRenderDevice* device);
+
+    virtual void onDraw(AbstractRenderDevice* device) = 0;
+
+    void update();
+
+    virtual void onUpdate();
+
+public slots:
+
+    void needUpdate();
 
 signals:
     void positionChanged();
@@ -85,6 +95,10 @@ private:
     bool _visible;
 
     QColor _color;
+
+    bool _needUpdate;
+
+    Matrix3x3 _tranformation;
 
 };
 
