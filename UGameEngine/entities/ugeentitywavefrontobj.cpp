@@ -19,3 +19,9 @@ void UGEEntityWaveFrontObj::onDraw(AbstractRenderDevice *device)
         drawPolygon(device, poly);
     }
 }
+
+Vector3D UGEEntityWaveFrontObj::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos, bool *ok)
+{
+    *ok = false;
+    return Vector3D();
+}

@@ -16,11 +16,13 @@ CONFIG += c++11
 SOURCES += main.cpp\
         mainwindow.cpp \
     renderwidget.cpp \
-    openglrenderdevice.cpp
+    openglrenderdevice.cpp \
+    gamecube.cpp
 
 HEADERS  += mainwindow.h \
     renderwidget.h \
-    openglrenderdevice.h
+    openglrenderdevice.h \
+    gamecube.h
 
 FORMS    += mainwindow.ui
 

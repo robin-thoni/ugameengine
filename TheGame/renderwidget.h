@@ -28,6 +28,8 @@ protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
 
+    void paintEvent(QPaintEvent* event);
+
 signals:
 
 public slots:

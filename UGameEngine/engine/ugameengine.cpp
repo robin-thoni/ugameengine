@@ -59,7 +59,7 @@ void UGameEngine::draw()
         }
     }
     int draw = time.elapsed();
-    qDebug() << update << draw << (update + draw);
+//    qDebug() << update << draw << (update + draw);
 
     _device->postDraw();
 }
@@ -72,6 +72,22 @@ const QList<UGEEntity *> &UGameEngine::getEntities() const
 UGEEntity *UGameEngine::getEntity(int i) const
 {
     return _entitites[i];
+}
+
+Vector3D UGameEngine::get2DFrom3D(const Vector3D &pos)
+{
+    return _device->get2DFrom3D(pos);
+}
+
+Vector3D UGameEngine::get3DFrom2D(const Vector2D &pos)
+{
+    return _device->get3DFrom2D(pos);
+}
+
+UGEEntity *UGameEngine::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos)
+{
+    Vector3D nearestPoint;
+    UGEEntity* entity = 0;
 }
 
 void UGameEngine::addEntity(UGEEntity *entity)

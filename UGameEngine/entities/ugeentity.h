@@ -59,6 +59,8 @@ public:
 
     virtual void onDraw(AbstractRenderDevice* device) = 0;
 
+    virtual Vector3D getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos, bool* ok) = 0;
+
     void update();
 
     virtual void onUpdate();
@@ -83,7 +85,7 @@ signals:
     void colorChanged();
     void colorChanged(QColor color);
 
-private:
+protected:
     Vector3D _position;
 
 //    Vector3D _speed;

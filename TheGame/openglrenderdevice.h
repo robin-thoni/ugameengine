@@ -17,7 +17,7 @@ public:
 
     virtual Vector3D get2DFrom3D(const Vector3D& pos);
 
-    virtual Vector3D get3DFrom2D(int x, int y);
+    virtual Vector3D get3DFrom2D(const Vector2D& pos);
 
 signals:
 

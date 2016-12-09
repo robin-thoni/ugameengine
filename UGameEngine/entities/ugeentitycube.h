@@ -16,6 +16,8 @@ public:
     virtual void onDraw(AbstractRenderDevice* device);
     void onUpdate();
 
+    virtual Vector3D getVectorNearestIntesection(const Vector3D &vector, const Vector3D &origin, bool* ok);
+
 signals:
     void sizeChanged();
     void sizeChanged(double);
@@ -29,7 +31,7 @@ public slots:
 
     void setTextureId(const QVariant &textureId);
 
-private:
+protected:
     double _size;
 
     QVariant _textureId;

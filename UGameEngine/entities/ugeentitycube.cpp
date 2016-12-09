@@ -110,3 +110,43 @@ void UGEEntityCube::onUpdate()
         }
     }
 }
+
+Vector3D UGEEntityCube::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &origin, bool *ok)
+{
+    *ok = false;
+    return Vector3D();
+//    Vector3D inv(1.0 / vector.getX(), 1.0 / vector.getY(), 1.0 / vector.getZ());
+//    float tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+//    tmin = (parameters[r.sign[0]].x() - origin.getX()) * inv.getX();
+//    tmax = (parameters[1-r.sign[0]].x() - origin.getX()) * inv.getX();
+//    tymin = (parameters[r.sign[1]].y() - origin.getY()) * inv.getY();
+//    tymax = (parameters[1-r.sign[1]].y() - origin.getY()) * inv.getY();
+//    if ( (tmin > tymax) || (tymin > tmax) ) {
+//        *ok = false;
+//        return Vector3D();
+//    }
+//    if (tymin > tmin)
+//    tmin = tymin;
+//    if (tymax < tmax)
+//    tmax = tymax;
+//    tzmin = (parameters[r.sign[2]].z() - r.origin.z()) * r.inv_direction.z();
+//    tzmax = (parameters[1-r.sign[2]].z() - r.origin.z()) * r.inv_direction.z();
+//    if ( (tmin > tzmax) || (tzmin > tmax) ) {
+//        *ok = false;
+//        return Vector3D();
+//    }
+//    *ok = true;
+//    return _position;
+
+//    if (tzmin > tmin)
+//    tmin = tzmin;
+//    if (tzmax < tmax)
+//    tmax = tzmax;
+//    if ((tmin < t1) && (tmax > t0)) {
+//        *ok = true;
+//        return _position;
+//    }
+//    *ok = false;
+//    return Vector3D();
+}

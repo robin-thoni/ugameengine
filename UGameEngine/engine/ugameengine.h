@@ -14,13 +14,17 @@ public:
     UGameEngine(AbstractRenderDevice* device);
     virtual ~UGameEngine();
 
-    void update();
-
     void draw();
 
     const QList<UGEEntity*>& getEntities() const;
 
     UGEEntity *getEntity(int i) const;
+
+    Vector3D get2DFrom3D(const Vector3D& pos);
+
+    Vector3D get3DFrom2D(const Vector2D &pos);
+
+    UGEEntity* getVectorNearestIntesection(const Vector3D& vector, const Vector3D &pos);
 
 public slots:
     void addEntity(UGEEntity* entity);
@@ -36,6 +40,8 @@ public slots:
     void loadTextureFromFile(const QVariant& id, const QString& filename);
 
 protected:
+    void update();
+
     QList<UGEEntity*> _entitites;
 
     AbstractRenderDevice* _device;

@@ -11,6 +11,8 @@ public:
 
     virtual void onDraw(AbstractRenderDevice* device);
 
+    virtual Vector3D getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos, bool* ok);
+
 signals:
 
 public slots:

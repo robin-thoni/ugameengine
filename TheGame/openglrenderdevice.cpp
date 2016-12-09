@@ -30,7 +30,7 @@ Vector3D OpenGLRenderDevice::get2DFrom3D(const Vector3D &pos)
      return Vector3D(gx, gy, gz);
 }
 
-Vector3D OpenGLRenderDevice::get3DFrom2D(int x, int y)
+Vector3D OpenGLRenderDevice::get3DFrom2D(const Vector2D &pos)
 {
     double gx, gy, gz;
     double modelMatrix[16];
@@ -40,7 +40,7 @@ Vector3D OpenGLRenderDevice::get3DFrom2D(int x, int y)
     glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
     glGetIntegerv(GL_VIEWPORT, viewport);
 
-    gluUnProject(x, y, 1, modelMatrix, projMatrix, viewport, &gx, &gy, &gz);
+    gluUnProject(pos.getX(), pos.getY(), 1, modelMatrix, projMatrix, viewport, &gx, &gy, &gz);
     return Vector3D(gx, gy, gz);
 }
 
@@ -105,7 +105,6 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
 //    glEnable(GL_LIGHT0);
 //    glEnable(GL_LIGHTING);
 
-    glEnable(GL_DEPTH_TEST);
 //    glDisable(GL_BLEND);
 //    glDisable(GL_POLYGON_SMOOTH);
 //    glEnable(GL_TEXTURE_2D);
@@ -131,6 +130,7 @@ void OpenGLRenderDevice::preDraw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+    glEnable(GL_DEPTH_TEST);
 
     gluLookAt(_lookEye.getX(), _lookEye.getY(), _lookEye.getZ(),
                _lookCenter.getX(), _lookCenter.getY(), _lookCenter.getZ(),
@@ -139,7 +139,7 @@ void OpenGLRenderDevice::preDraw()
 
 void OpenGLRenderDevice::postDraw()
 {
-
+    glDisable(GL_DEPTH_TEST);
 }
 
 void OpenGLRenderDevice::drawVertex(const ColorVector3D &point)
