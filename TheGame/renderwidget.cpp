@@ -33,6 +33,18 @@ RenderWidget::RenderWidget(QWidget *parent) :
         _entities.append(cube);
     }
 
+    for(int i = 0,j = 0; i * j< 625;){
+        UGEEntityCube* cube = new GameCube(_engine);
+        cube->setTextureId("test");
+        cube->move(Vector3D(i, 0, j++));
+        _engine->addEntity(cube);
+        _entities.append(cube);
+        if(j == 26){
+            j = 0;
+            i++;
+        }
+    }
+
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
