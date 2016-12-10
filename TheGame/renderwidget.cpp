@@ -28,27 +28,27 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     //_engine->addEntity(new UGEEntityAxes(_engine));
 
-    for (int i = 0; i < 1; ++i) {
-        UGEEntityCube* cube = new GameCube(_engine);
-        cube->setTextureId("rubiks");
-//        cube->rotate(Vector3D(0.0, 45.0, 45.0));
-        cube->move(Vector3D(0, i, i));
-//        cube->setScale(Vector3D(1.0, 2.0, 1.0));
-        _engine->addEntity(cube);
-        _entities.append(cube);
-    }
-
-//    for(int i = 0,j = 0; i * j< 626;){
+//    for (int i = 0; i < 1; ++i) {
 //        UGEEntityCube* cube = new GameCube(_engine);
 //        cube->setTextureId("rubiks");
-//        cube->move(Vector3D(i, 0, j++));
+////        cube->rotate(Vector3D(0.0, 45.0, 45.0));
+//        cube->move(Vector3D(0, i, i));
+////        cube->setScale(Vector3D(1.0, 2.0, 1.0));
 //        _engine->addEntity(cube);
 //        _entities.append(cube);
-//        if(j == 26){
-//            j = 0;
-//            i++;
-//        }
 //    }
+
+    for(int i = 0,j = 0; i * j< 626;){
+        UGEEntityCube* cube = new GameCube(_engine);
+        cube->setTextureId("rubiks");
+        cube->move(Vector3D(i, 0, j++));
+        _engine->addEntity(cube);
+        _entities.append(cube);
+        if(j == 26){
+            j = 0;
+            i++;
+        }
+    }
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile(_assetsPath + "objs/enterprise/USSEnterprise.obj");
@@ -84,15 +84,15 @@ void RenderWidget::mousePressEvent(QMouseEvent *event)
     _camera->mousePressEvent(event);
     if (event->buttons() & Qt::LeftButton) {
 //        Vector3D pos = _engine->get3DFrom2D(Vector2D(event->x(), height() - event->y()));
-        Vector3D pos = _camera->getDirection();
+        Vector3D pos = _camera->getPosition();
         qDebug() << pos.getX() << pos.getY() << pos.getZ();
         Vector3D bestp;
-        bool ok;
+        bool ok = false;
         for (int i = 0; i < _engine->getEntities().size(); i++) {
             UGEEntity* entity = _engine->getEntities()[i];
             bool provi;
-            Vector3D collision = entity->getVectorNearestIntesection(_camera->getDirection(), _camera->getPosition(), &provi);
-            if (provi) {
+            Vector3D collision = entity->getVectorNearestIntesection(_camera->getDirection(), pos, &provi);
+            if (provi && (!ok || (pos - bestp).norm() > (pos - collision).norm())) {
                 bestp = collision;
                 UGEEntityAxes* axe = new UGEEntityAxes(_engine);
                 axe->move(bestp);
