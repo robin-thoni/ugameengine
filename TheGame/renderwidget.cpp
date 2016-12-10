@@ -25,7 +25,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     for (int i = 0; i < 1000; ++i) {
         UGEEntityCube* cube = new GameCube(_engine);
-        cube->setTextureId("test");
+        cube->setTextureId("rubiks");
 //        cube->rotate(Vector3D(0.0, 45.0, 45.0));
         cube->move(Vector3D(0, i, i));
 //        cube->setScale(Vector3D(1.0, 2.0, 1.0));
@@ -34,7 +34,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
     }
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
-    wavefrontObj->openFile("/home/robin/Downloads/enterprise/obj/USSEnterprise.obj");
+    wavefrontObj->openFile("./assets/objs/enterprise/USSEnterprise.obj");
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
     _engine->addEntity(obj);
     _entities.append(obj);
@@ -47,7 +47,7 @@ void RenderWidget::initializeGL()
     _engine->setClearColor(Qt::gray);
     _engine->initialize(70, width(), height());
 
-    _engine->loadTextureFromFile("test", "/home/robin/Downloads/test.png");
+    _engine->loadTextureFromFile("rubiks", "./assets/textures/rubiks.png");
 }
 
 void RenderWidget::paintGL()
