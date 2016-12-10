@@ -7,12 +7,16 @@
 #include "utils/vector3d.h"
 #include "utils/matrix3x3.h"
 #include "engine/abstractrenderdevice.h"
+#include "engine/ugameengine.h"
+
+class UGameEngine;
 
 class UGEEntity : public QObject
 {
     Q_OBJECT
 public:
-    explicit UGEEntity(QObject *parent = 0);
+    explicit UGEEntity(UGameEngine* engine, QObject *parent);
+    explicit UGEEntity(UGameEngine* engine);
     virtual ~UGEEntity();
 
     Vector3D getPosition() const;
@@ -90,6 +94,8 @@ signals:
     void colorChanged(QColor color);
 
 protected:
+    UGameEngine* _engine;
+
     Vector3D _position;
 
 //    Vector3D _speed;
@@ -107,6 +113,9 @@ protected:
     Matrix3x3 _tranformation;
 
     double _zero;
+
+private:
+    void init();
 
 };
 

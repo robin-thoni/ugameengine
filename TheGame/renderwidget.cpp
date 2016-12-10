@@ -8,7 +8,6 @@
 #include "entities/ugeentitywavefrontobj.h"
 #include "cameras/rotationcamera.h"
 #include "cameras/freeflycamera.h"
-#include "gamecube.h"
 
 RenderWidget::RenderWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -34,27 +33,26 @@ RenderWidget::RenderWidget(QWidget *parent) :
 ////        cube->rotate(Vector3D(0.0, 45.0, 45.0));
 //        cube->move(Vector3D(0, i, i));
 ////        cube->setScale(Vector3D(1.0, 2.0, 1.0));
-//        _engine->addEntity(cube);
 //        _entities.append(cube);
 //    }
 
-    for(int i = 0,j = 0; i * j< 626;){
-        UGEEntityCube* cube = new GameCube(_engine);
-        cube->setTextureId("rubiks");
-        cube->move(Vector3D(i, 0, j++));
-        _engine->addEntity(cube);
-        _entities.append(cube);
-        if(j == 26){
-            j = 0;
-            i++;
+
+//    int xmax = 25;
+//    int zmax = 25;
+    int xmax = 1;
+    int zmax = 1;
+    for (int x = 0; x < xmax; ++x) {
+        for (int z = 0; z < zmax; ++z) {
+            UGEEntityCube* cube = new UGEEntityCube(_engine);
+            cube->setTextureId("rubiks");
+            cube->move(Vector3D(x - (xmax / 2), 0, z - (zmax / 2)));
         }
     }
 
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile(_assetsPath + "objs/enterprise/USSEnterprise.obj");
-    UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, this);
+    UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, _engine);
     obj->hide();
-    _engine->addEntity(obj);
     _entities.append(obj);
     animate();
 }
@@ -82,22 +80,32 @@ void RenderWidget::resizeGL(int width, int height)
 void RenderWidget::mousePressEvent(QMouseEvent *event)
 {
     _camera->mousePressEvent(event);
-    if (event->buttons() & Qt::LeftButton) {
-//        Vector3D pos = _engine->get3DFrom2D(Vector2D(event->x(), height() - event->y()));
-        Vector3D pos = _camera->getPosition();
-       // qDebug() << pos.getX() << pos.getY() << pos.getZ();
+    bool left = event->buttons() & Qt::LeftButton;
+    bool right = event->buttons() & Qt::RightButton;
+    if (left || right) {
         Vector3D bestp;
-        bool ok = false;
-        for (int i = 0; i < _engine->getEntities().size(); i++) {
-            UGEEntity* entity = _engine->getEntities()[i];
-            bool provi;
-            Vector3D collision = entity->getVectorNearestIntesection(_camera->getDirection(), pos, &provi);
-            if (provi && (!ok || (pos - bestp).norm() > (pos - collision).norm())) {
-                bestp = collision;
-                UGEEntityAxes* axe = new UGEEntityAxes(_engine);
-                axe->move(bestp);
-                _engine->addEntity(axe);
-                ok = true;
+        UGEEntity* entity = _engine->getVectorNearestIntesection(_camera->getDirection(), _camera->getPosition(), &bestp);
+        if (entity) {
+//            UGEEntity* axe = new UGEEntityAxes(_engine);
+//            axe->move(bestp);
+            if (right) {
+                entity->deleteLater();
+            }
+            else if (left) {
+                Vector3D pos = entity->getPosition();
+                Vector3D diff = pos - bestp;
+                if (fmod(fabs(diff.getX()), 0.5) == 0) {
+                    pos.add(Vector3D(1 * (diff.getX() < 0 ? 1 : -1), 0, 0));
+                }
+                else if (fmod(fabs(diff.getY()), 0.5) == 0) {
+                    pos.add(Vector3D(0, 1 * (diff.getY() < 0 ? 1 : -1), 0));
+                }
+                else if (fmod(fabs(diff.getZ()), 0.5) == 0) {
+                    pos.add(Vector3D(0, 0, 1 * (diff.getZ() < 0 ? 1 : -1)));
+                }
+                UGEEntityCube* cube = new UGEEntityCube(_engine);
+                cube->move(pos);
+                cube->setTextureId("rubiks");
             }
         }
     }
@@ -111,12 +119,6 @@ void RenderWidget::mouseReleaseEvent(QMouseEvent *event)
 void RenderWidget::mouseMoveEvent(QMouseEvent *event)
 {
     _camera->mouseMoveEvent(event);
-
-//    Vector3D dd = _device->get2DFrom3D(Vector3D(0.5, 0.5, 0.5));
-//    dd.setY(height() - dd.getY());
-//    qDebug() << event->pos() << dd;
-//    pos = _device->get3DFrom2D(event->x(), height() - event->y());
-
 }
 
 void RenderWidget::mouseDoubleClickEvent(QMouseEvent *event)

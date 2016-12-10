@@ -1,9 +1,17 @@
 #include "ugeentitywavefrontobj.h"
 
-UGEEntityWaveFrontObj::UGEEntityWaveFrontObj(WaveFrontObj *obj, QObject *parent)
-    : UGEEntity(parent)
+UGEEntityWaveFrontObj::UGEEntityWaveFrontObj(WaveFrontObj *obj, UGameEngine *engine, QObject *parent)
+    : UGEEntity(engine, parent)
     , _obj(obj)
 {
+
+}
+
+UGEEntityWaveFrontObj::UGEEntityWaveFrontObj(WaveFrontObj *obj, UGameEngine *engine)
+    : UGEEntity(engine)
+    , _obj(obj)
+{
+
 }
 
 void UGEEntityWaveFrontObj::onDraw(AbstractRenderDevice *device)

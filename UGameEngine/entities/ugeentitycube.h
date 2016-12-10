@@ -7,7 +7,8 @@ class UGEEntityCube : public UGEEntity
 {
     Q_OBJECT
 public:
-    explicit UGEEntityCube(QObject *parent = 0);
+    explicit UGEEntityCube(UGameEngine* engine, QObject *parent);
+    explicit UGEEntityCube(UGameEngine* engine);
 
     double getSize() const;
 
@@ -39,6 +40,9 @@ protected:
     QList<QList<TextureVector3D> > _facesTexture;
 
     QList<QList<ColorVector3D> > _facesColor;
+
+private:
+    void init();
 
 };
 

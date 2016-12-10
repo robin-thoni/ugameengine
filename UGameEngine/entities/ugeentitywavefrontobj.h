@@ -8,7 +8,8 @@ class UGEEntityWaveFrontObj : public UGEEntity
 {
     Q_OBJECT
 public:
-    explicit UGEEntityWaveFrontObj(WaveFrontObj* obj, QObject *parent = 0);
+    explicit UGEEntityWaveFrontObj(WaveFrontObj* obj, UGameEngine* engine, QObject *parent);
+    explicit UGEEntityWaveFrontObj(WaveFrontObj* obj, UGameEngine* engine);
 
     virtual void onDraw(AbstractRenderDevice* device);
 

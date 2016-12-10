@@ -16,7 +16,7 @@ public:
 
     virtual void updateLookAt();
 
-    void rotate(float phi, float theta);
+    void rotate(double phi, double theta);
 
 private:
 

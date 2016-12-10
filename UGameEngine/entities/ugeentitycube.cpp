@@ -1,11 +1,15 @@
 #include "ugeentitycube.h"
 
-UGEEntityCube::UGEEntityCube(QObject *parent)
-    : UGEEntity(parent)
-    , _size(1.0)
+UGEEntityCube::UGEEntityCube(UGameEngine *engine, QObject *parent)
+    : UGEEntity(engine, parent)
 {
-    connect(this, SIGNAL(sizeChanged()), this, SLOT(needUpdate()));
-    connect(this, SIGNAL(textureChanged()), this, SLOT(needUpdate()));
+    init();
+}
+
+UGEEntityCube::UGEEntityCube(UGameEngine *engine)
+    : UGEEntity(engine)
+{
+    init();
 }
 
 double UGEEntityCube::getSize() const
@@ -54,6 +58,14 @@ void UGEEntityCube::setTextureId(const QVariant &textureId)
     setColor(Qt::white);
     emit textureChanged();
     emit textureChanged(_textureId);
+}
+
+void UGEEntityCube::init()
+{
+    connect(this, SIGNAL(sizeChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(textureChanged()), this, SLOT(needUpdate()));
+
+    _size = 1;
 }
 
 void UGEEntityCube::onUpdate()
@@ -114,9 +126,6 @@ void UGEEntityCube::onUpdate()
 Vector3D UGEEntityCube::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &origin, bool *ok)
 {
     *ok = false;
-    //    Vector3D p1 = points[1] - p;
-    //    Vector3D p2 = points[1];
-    //    Vector3D n = p1.crossProduct(p2);
     Vector3D bestP;
     for (int i = 0; i < _facesTexture.size(); ++i){
         bool provi = false;
@@ -129,44 +138,7 @@ Vector3D UGEEntityCube::getVectorNearestIntesection(const Vector3D &vector, cons
                 bestP = pinter;
                 *ok = true;
             }
-            //qDebug() << bestP.getX() << bestP.getY() << bestP.getZ();
         }
     }
     return bestP;
-
-
-//    Vector3D inv(1.0 / vector.getX(), 1.0 / vector.getY(), 1.0 / vector.getZ());
-//    float tmin, tmax, tymin, tymax, tzmin, tzmax;
-
-//    tmin = (parameters[r.sign[0]].x() - origin.getX()) * inv.getX();
-//    tmax = (parameters[1-r.sign[0]].x() - origin.getX()) * inv.getX();
-//    tymin = (parameters[r.sign[1]].y() - origin.getY()) * inv.getY();
-//    tymax = (parameters[1-r.sign[1]].y() - origin.getY()) * inv.getY();
-//    if ( (tmin > tymax) || (tymin > tmax) ) {
-//        *ok = false;
-//        return Vector3D();
-//    }
-//    if (tymin > tmin)
-//    tmin = tymin;
-//    if (tymax < tmax)
-//    tmax = tymax;
-//    tzmin = (parameters[r.sign[2]].z() - r.origin.z()) * r.inv_direction.z();
-//    tzmax = (parameters[1-r.sign[2]].z() - r.origin.z()) * r.inv_direction.z();
-//    if ( (tmin > tzmax) || (tzmin > tmax) ) {
-//        *ok = false;
-//        return Vector3D();
-//    }
-//    *ok = true;
-//    return _position;
-
-//    if (tzmin > tmin)
-//    tmin = tzmin;
-//    if (tzmax < tmax)
-//    tmax = tzmax;
-//    if ((tmin < t1) && (tmax > t0)) {
-//        *ok = true;
-//        return _position;
-//    }
-//    *ok = false;
-//    return Vector3D();
 }

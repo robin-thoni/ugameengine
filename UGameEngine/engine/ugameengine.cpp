@@ -84,15 +84,31 @@ Vector3D UGameEngine::get3DFrom2D(const Vector2D &pos)
     return _device->get3DFrom2D(pos);
 }
 
-UGEEntity *UGameEngine::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos)
+UGEEntity *UGameEngine::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos, Vector3D* bestp)
 {
-    Vector3D nearestPoint;
-    UGEEntity* entity = 0;
+    UGEEntity* beste = 0;
+    bool ok = false;
+    for (int i = 0; i < _entitites.size(); i++) {
+        UGEEntity* entity = _entitites[i];
+        bool provi;
+        Vector3D collision = entity->getVectorNearestIntesection(vector, pos, &provi);
+        if (provi && (!ok || (pos - *bestp).norm() > (pos - collision).norm())) {
+            *bestp = collision;
+            beste = entity;
+            ok = true;
+        }
+    }
+    return beste;
 }
 
 void UGameEngine::addEntity(UGEEntity *entity)
 {
     _entitites.append(entity);
+}
+
+void UGameEngine::removeEntity(UGEEntity *entity)
+{
+    _entitites.removeOne(entity);
 }
 
 void UGameEngine::lookAt(const Vector3D &eye, const Vector3D &center, const Vector3D &up)

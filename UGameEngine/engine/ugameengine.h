@@ -6,6 +6,7 @@
 #include "entitiesupdatethread.h"
 
 class EntitiesUpdateThread;
+class UGEEntity;
 
 class UGameEngine : public QObject
 {
@@ -24,10 +25,12 @@ public:
 
     Vector3D get3DFrom2D(const Vector2D &pos);
 
-    UGEEntity* getVectorNearestIntesection(const Vector3D& vector, const Vector3D &pos);
+    UGEEntity* getVectorNearestIntesection(const Vector3D& vector, const Vector3D &pos, Vector3D *bestp);
 
 public slots:
     void addEntity(UGEEntity* entity);
+
+    void removeEntity(UGEEntity* entity);
 
     void lookAt(const Vector3D& eye, const Vector3D& center, const Vector3D& up = Vector3D(0.0, 1.0, 0.0));
 

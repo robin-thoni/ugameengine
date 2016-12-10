@@ -1,21 +1,23 @@
 #include "ugeentity.h"
 #include "utils/tools.h"
 
-UGEEntity::UGEEntity(QObject *parent)
+UGEEntity::UGEEntity(UGameEngine *engine, QObject *parent)
     : QObject(parent)
-    , _scale(1.0, 1.0, 1.0)
-    , _visible(true)
-    , _needUpdate(true)
-    , _zero(0.001)
+    , _engine(engine)
 {
-    connect(this, SIGNAL(positionChanged()), this, SLOT(needUpdate()));
-    connect(this, SIGNAL(rotationChanged()), this, SLOT(needUpdate()));
-    connect(this, SIGNAL(scaleChanged()), this, SLOT(needUpdate()));
-    connect(this, SIGNAL(colorChanged()), this, SLOT(needUpdate()));
+    init();
+}
+
+UGEEntity::UGEEntity(UGameEngine *engine)
+    : QObject(engine)
+    , _engine(engine)
+{
+    init();
 }
 
 UGEEntity::~UGEEntity()
 {
+    _engine->removeEntity(this);
 }
 
 Vector3D UGEEntity::getPosition() const
@@ -232,6 +234,21 @@ void UGEEntity::onUpdate()
 void UGEEntity::needUpdate()
 {
     _needUpdate = true;
+}
+
+void UGEEntity::init()
+{
+    connect(this, SIGNAL(positionChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(rotationChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(scaleChanged()), this, SLOT(needUpdate()));
+    connect(this, SIGNAL(colorChanged()), this, SLOT(needUpdate()));
+
+    _scale = Vector3D(1.0, 1.0, 1.0);
+    _visible = true;
+    _needUpdate =true;
+    _zero = 0.001;
+
+    _engine->addEntity(this);
 }
 
 

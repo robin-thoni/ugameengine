@@ -15,9 +15,10 @@ FreeFlyCamera::FreeFlyCamera(UGameEngine *engine, QWidget* widget)
 
 void FreeFlyCamera::mouseMoveEvent(QMouseEvent *event)
 {
-    QPoint diff = (event->pos() - _lastPoint) / 2;
+    double ratio = 0.5;
+    QPoint diff = (event->pos() - _lastPoint);
 
-    rotate(-diff.x(), diff.y());
+    rotate(-diff.x() * ratio, diff.y() * ratio);
 
     QPoint glob = _widget->mapToGlobal(QPoint(_widget->width()/2,_widget->height()/2));
     QCursor::setPos(glob);
@@ -62,7 +63,7 @@ void FreeFlyCamera::updateLookAt()
     _engine->lookAt(_position, _direction + _position);
 }
 
-void FreeFlyCamera::rotate(float phi, float theta)
+void FreeFlyCamera::rotate(double phi, double theta)
 {
     _phi = Tools::normalizeAngle(_phi + phi);
     if (_theta + theta >= 180.0) {
