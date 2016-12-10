@@ -61,6 +61,10 @@ public:
 
     virtual Vector3D getVectorNearestIntesection(const Vector3D &vector, const Vector3D &pos, bool* ok) = 0;
 
+    Vector3D getVectorNearestFaceIntersection(const Vector3D & p0, const Vector3D &p1, const Vector3D &p2, const Vector3D &vector, const Vector3D &pos, bool* ok);
+
+    bool isZero(double v);
+
     void update();
 
     virtual void onUpdate();
@@ -101,6 +105,8 @@ protected:
     bool _needUpdate;
 
     Matrix3x3 _tranformation;
+
+    double _zero;
 
 };
 

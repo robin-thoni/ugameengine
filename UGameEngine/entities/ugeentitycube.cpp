@@ -114,7 +114,27 @@ void UGEEntityCube::onUpdate()
 Vector3D UGEEntityCube::getVectorNearestIntesection(const Vector3D &vector, const Vector3D &origin, bool *ok)
 {
     *ok = false;
-    return Vector3D();
+    //    Vector3D p1 = points[1] - p;
+    //    Vector3D p2 = points[1];
+    //    Vector3D n = p1.crossProduct(p2);
+    Vector3D bestP;
+    for (int i = 0; i < _facesTexture.size(); ++i){
+        bool provi = false;
+        QList<TextureVector3D> face = _facesTexture[i];
+        Vector3D pinter = getVectorNearestFaceIntersection(face[0], face[1], face[2], vector, origin, &provi);
+        if (provi) {
+            bool isNearest = (origin - pinter).norm() < (origin - bestP).norm();
+            bool isInFace = (_position - face[0]).norm() >= (_position - pinter).norm();
+            if (isInFace && (!(*ok) || isNearest)) {
+                bestP = pinter;
+                *ok = true;
+            }
+            qDebug() << bestP.getX() << bestP.getY() << bestP.getZ();
+        }
+    }
+    return bestP;
+
+
 //    Vector3D inv(1.0 / vector.getX(), 1.0 / vector.getY(), 1.0 / vector.getZ());
 //    float tmin, tmax, tymin, tymax, tzmin, tzmax;
 

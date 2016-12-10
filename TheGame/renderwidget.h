@@ -43,6 +43,8 @@ private:
     QList<UGEEntity*> _entities;
 
     AbstractCamera* _camera;
+
+    QString _assetsPath;
 };
 
 #endif // RENDERWIDGET_H

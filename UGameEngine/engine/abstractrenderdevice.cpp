@@ -1,5 +1,6 @@
 #include "abstractrenderdevice.h"
 #include <QImage>
+#include <QDir>
 
 AbstractRenderDevice::AbstractRenderDevice(QObject *parent) :
     QObject(parent)
@@ -46,6 +47,7 @@ void AbstractRenderDevice::lookAt(const Vector3D &eye, const Vector3D &center, c
 void AbstractRenderDevice::loadTextureFromFile(const QVariant &id, const QString &filename)
 {
     QImage img;
+    qDebug() << QDir::currentPath() << filename;
     if (img.load(filename)) {
         loadTexture(id, img);
     }

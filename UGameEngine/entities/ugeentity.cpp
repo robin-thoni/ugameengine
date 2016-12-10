@@ -6,6 +6,7 @@ UGEEntity::UGEEntity(QObject *parent)
     , _scale(1.0, 1.0, 1.0)
     , _visible(true)
     , _needUpdate(true)
+    , _zero(0.001)
 {
     connect(this, SIGNAL(positionChanged()), this, SLOT(needUpdate()));
     connect(this, SIGNAL(rotationChanged()), this, SLOT(needUpdate()));
@@ -231,4 +232,28 @@ void UGEEntity::onUpdate()
 void UGEEntity::needUpdate()
 {
     _needUpdate = true;
+}
+
+
+Vector3D UGEEntity::getVectorNearestFaceIntersection(const Vector3D & p0, const Vector3D &p1, const Vector3D &p2, const Vector3D &vector, const Vector3D &pos, bool* ok){
+    Vector3D v1 = p1 - p0;
+    Vector3D v2 = p2 - p0;
+    Vector3D n = v1.crossProduct(v2);
+    double dotProduct = vector.dotProduct(n);
+    if(isZero(dotProduct)){
+        *ok = false;
+        return Vector3D();
+    }
+    double l2 = n.dotProduct(p0 - pos) / dotProduct;
+    if(-_zero > l2){
+        *ok = false;
+        return Vector3D();
+    }
+    *ok = true;
+    Vector3D unit = (vector / vector.norm()) * l2;
+    return pos + unit;
+}
+
+bool UGEEntity::isZero(double v){
+    return v < _zero && v > -_zero;
 }

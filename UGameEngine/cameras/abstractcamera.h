@@ -25,10 +25,20 @@ public:
 
     virtual void updateLookAt() = 0;
 
+    Vector3D getDirection() const;
+    void setDirection(const Vector3D &getDirection);
+
+    Vector3D getPosition() const;
+    void setPosition(const Vector3D &getPosition);
+
 protected:
     UGameEngine* _engine;
 
     QWidget* _widget;
+
+    Vector3D _direction;
+
+    Vector3D _position;
 };
 
 #endif // ABSTRACTCAMERA_H
