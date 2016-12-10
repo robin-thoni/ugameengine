@@ -19,9 +19,6 @@ public:
     void rotate(float phi, float theta);
 
 private:
-    Vector3D _direction;
-
-    Vector3D _position;
 
     Vector2D _speedVector;
 

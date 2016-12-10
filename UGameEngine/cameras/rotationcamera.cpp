@@ -50,12 +50,13 @@ void RotationCamera::updateLookAt()
 {
     float theta = fabs(_theta / 180.0 * M_PI);
     float phi = _phi / 180.0 * M_PI;
-    Vector3D center = Vector3D(
+    _position = Vector3D(
                 _radius * sin(theta) * sin(phi),
                 _radius * cos(theta),
                 _radius * sin(theta) * cos(phi)
                 );
-    _engine->lookAt(center, Vector3D(0.0f, 0.0f, 0.0f));
+    _direction = -_position;
+    _engine->lookAt(_position, Vector3D(0.0f, 0.0f, 0.0f));
 }
 
 void RotationCamera::rotate(float phi, float theta)

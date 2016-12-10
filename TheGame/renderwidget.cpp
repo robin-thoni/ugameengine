@@ -65,7 +65,8 @@ void RenderWidget::mousePressEvent(QMouseEvent *event)
 {
     _camera->mousePressEvent(event);
     if (event->buttons() & Qt::LeftButton) {
-        Vector3D pos = _engine->get3DFrom2D(Vector2D(event->x(), height() - event->y()));
+//        Vector3D pos = _engine->get3DFrom2D(Vector2D(event->x(), height() - event->y()));
+        Vector3D pos = _camera->getDirection();
         qDebug() << pos.getX() << pos.getY() << pos.getZ();
     }
 }

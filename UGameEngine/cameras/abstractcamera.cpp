@@ -40,4 +40,24 @@ void AbstractCamera::keyReleaseEvent(QKeyEvent* event)
 {
     (void) event;
 }
+Vector3D AbstractCamera::getDirection() const
+{
+    return _direction;
+}
+
+void AbstractCamera::setDirection(const Vector3D &direction)
+{
+    _direction = direction;
+}
+Vector3D AbstractCamera::getPosition() const
+{
+    return _position;
+}
+
+void AbstractCamera::setPosition(const Vector3D &position)
+{
+    _position = position;
+}
+
+
 
