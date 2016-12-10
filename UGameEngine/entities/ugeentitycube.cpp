@@ -129,7 +129,7 @@ Vector3D UGEEntityCube::getVectorNearestIntesection(const Vector3D &vector, cons
                 bestP = pinter;
                 *ok = true;
             }
-            qDebug() << bestP.getX() << bestP.getY() << bestP.getZ();
+            //qDebug() << bestP.getX() << bestP.getY() << bestP.getZ();
         }
     }
     return bestP;
