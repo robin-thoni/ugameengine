@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <math.h>
 #include <QDebug>
+#include <QDir>
 #include "entities/ugeentitycube.h"
 #include "entities/ugeentityaxes.h"
 #include "utils/wavefrontobj.h"
@@ -37,10 +38,10 @@ RenderWidget::RenderWidget(QWidget *parent) :
 //    }
 
 
-//    int xmax = 25;
-//    int zmax = 25;
-    int xmax = 1;
-    int zmax = 1;
+    int xmax = 25;
+    int zmax = 25;
+//    int xmax = 1;
+//    int zmax = 1;
     for (int x = 0; x < xmax; ++x) {
         for (int z = 0; z < zmax; ++z) {
             UGEEntityCube* cube = new UGEEntityCube(_engine);
@@ -59,11 +60,21 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
 void RenderWidget::initializeGL()
 {
+    srand(time(0));
     makeCurrent();
     _engine->setClearColor(Qt::gray);
     _engine->initialize(70, width(), height());
 
-    _engine->loadTextureFromFile("rubiks", _assetsPath + "textures/rubiks.png");
+    _textures.clear();
+    QDir texturesDir(_assetsPath + "textures");
+    QFileInfoList files = texturesDir.entryInfoList(QStringList() << "*.png" << "*.jpg" << "*.jpeg");
+    for (int i = 0; i < files.size(); ++i)
+    {
+        QFileInfo file = files[i];
+
+        _engine->loadTextureFromFile(file.baseName(), file.absoluteFilePath());
+        _textures.append(file.baseName());
+    }
 }
 
 void RenderWidget::paintGL()
@@ -103,9 +114,25 @@ void RenderWidget::mousePressEvent(QMouseEvent *event)
                 else if (fmod(fabs(diff.getZ()), 0.5) == 0) {
                     pos.add(Vector3D(0, 0, 1 * (diff.getZ() < 0 ? 1 : -1)));
                 }
+
+                QList<UGEEntity*> entities = _engine->getEntities();
+                for (int i = 0; i < entities.size(); ++i) {
+                    UGEEntity* e = entities[i];
+                    if (e->getPosition() == pos) {
+                        return;
+                    }
+                }
+
+                int x = (rand() >= RAND_MAX / 2 ? 90 : 0) * (rand() >= RAND_MAX / 2 ? -1 : 1);
+                int y = (rand() >= RAND_MAX / 2 ? 90 : 0) * (rand() >= RAND_MAX / 2 ? -1 : 1);
+                int z = (rand() >= RAND_MAX / 2 ? 90 : 0) * (rand() >= RAND_MAX / 2 ? -1 : 1);
+                QString texture = _textures[rand() / (double)RAND_MAX * _textures.size()];
+
+
                 UGEEntityCube* cube = new UGEEntityCube(_engine);
                 cube->move(pos);
-                cube->setTextureId("rubiks");
+                cube->rotate(Vector3D(x, y, z));
+                cube->setTextureId(texture);
             }
         }
     }

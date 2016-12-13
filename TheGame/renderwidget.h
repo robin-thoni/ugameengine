@@ -45,6 +45,8 @@ private:
     AbstractCamera* _camera;
 
     QString _assetsPath;
+
+    QStringList _textures;
 };
 
 #endif // RENDERWIDGET_H
