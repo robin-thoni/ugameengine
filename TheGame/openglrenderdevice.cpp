@@ -113,7 +113,7 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
 //    glEnable(GL_CULL_FACE);
 
     glMatrixMode(GL_PROJECTION);
-    gluPerspective(_fov, _width / _height, 0.1, 100.0);
+    gluPerspective(_fov, (double)_width / _height, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -121,9 +121,13 @@ void OpenGLRenderDevice::resize(int width, int height)
 {
     _width = width;
     _height = height;
-//    glViewport(0, 0, _width, _height);
-    int side = qMin(_width, _height);
-    glViewport((_width - side) / 2, (_height - side) / 2, side, side);
+    glViewport(0, 0, _width, _height);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(_fov, (double)_width / _height, 0.1, 100.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void OpenGLRenderDevice::preDraw()
