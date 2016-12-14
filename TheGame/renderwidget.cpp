@@ -25,6 +25,7 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     _engine = new UGameEngine(new OpenGLRenderDevice(this));
     _camera = new FreeFlyCamera(_engine, this);
+    _camera->setPosition(Vector3D(0, 1.5, 0));
 
     //_engine->addEntity(new UGEEntityAxes(_engine));
 
@@ -40,8 +41,6 @@ RenderWidget::RenderWidget(QWidget *parent) :
 
     int xmax = 25;
     int zmax = 25;
-//    int xmax = 1;
-//    int zmax = 1;
     for (int x = 0; x < xmax; ++x) {
         for (int z = 0; z < zmax; ++z) {
             UGEEntityCube* cube = new UGEEntityCube(_engine);
@@ -53,8 +52,25 @@ RenderWidget::RenderWidget(QWidget *parent) :
     WaveFrontObj* wavefrontObj = new WaveFrontObj(this);
     wavefrontObj->openFile(_assetsPath + "objs/enterprise/USSEnterprise.obj");
     UGEEntityWaveFrontObj* obj = new UGEEntityWaveFrontObj(wavefrontObj, _engine);
-    obj->hide();
-    _entities.append(obj);
+    obj->move(Vector3D(0, 15, 0));
+
+    UGEEntityCube* cube = new UGEEntityCube(_engine);
+    cube->move(Vector3D(5, 17, 5));
+    cube->setTextureId("dice");
+    _entities.append(cube);
+    cube = new UGEEntityCube(_engine);
+    cube->move(Vector3D(-5, 17, 5));
+    cube->setTextureId("dice");
+    _entities.append(cube);
+    cube = new UGEEntityCube(_engine);
+    cube->move(Vector3D(-5, 17, -5));
+    cube->setTextureId("dice");
+    _entities.append(cube);
+    cube = new UGEEntityCube(_engine);
+    cube->move(Vector3D(5, 17, -5));
+    cube->setTextureId("dice");
+    _entities.append(cube);
+
     animate();
 }
 
@@ -97,6 +113,11 @@ void RenderWidget::mousePressEvent(QMouseEvent *event)
         Vector3D bestp;
         UGEEntity* entity = _engine->getVectorNearestIntesection(_camera->getDirection(), _camera->getPosition(), &bestp);
         if (entity) {
+            for (int i = 0; i < _entities.size(); ++i) {
+                if (_entities[i] == entity) {
+                    return;
+                }
+            }
 //            UGEEntity* axe = new UGEEntityAxes(_engine);
 //            axe->move(bestp);
             if (right) {
@@ -183,9 +204,9 @@ void RenderWidget::paintEvent(QPaintEvent *event)
 
 void RenderWidget::animate()
 {
-//    for (int i = 0; i < _entities.size(); ++i) {
-//        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
-//    }
+    for (int i = 0; i < _entities.size(); ++i) {
+        _entities[i]->rotate(Vector3D(0.0, 2.0, 2.0));
+    }
     QTimer::singleShot(20, this, SLOT(animate()));
     update();
 }

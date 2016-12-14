@@ -5,8 +5,8 @@
 FreeFlyCamera::FreeFlyCamera(UGameEngine *engine, QWidget* widget)
     : AbstractCamera(engine, widget)
     , _speed(0.2)
-    , _phi(45)
-    , _theta(45)
+    , _phi(270.0)
+    , _theta(90.0)
 {
     _widget->setCursor(Qt::BlankCursor);
     _lastPoint = QPoint(_widget->width()/2,_widget->height()/2);

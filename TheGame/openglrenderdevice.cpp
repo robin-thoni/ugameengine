@@ -97,7 +97,7 @@ void OpenGLRenderDevice::initialize(int fov, int width, int height)
 //    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 
-//    GLfloat light_diffuse[] = {1.0, 0.0, 0.0, 1.0};  /* Red diffuse light. */
+//    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};  /* Red diffuse light. */
 //    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};  /* Infinite light location. */
 //    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -174,12 +174,12 @@ void OpenGLRenderDevice::drawLine(const ColorVector3D &begin, const ColorVector3
 void OpenGLRenderDevice::drawPolygon(const QList<ColorVector3D> &points)
 {
     glBegin(GL_POLYGON);
-//    Vector3D p1 = points[0];
-//    Vector3D p2 = points[1];
-//    Vector3D n = p1.crossProduct(p2);
+    Vector3D p1 = points[0] - points[1];
+    Vector3D p2 = points[0] - points[2];
+    Vector3D n = p1.crossProduct(p2);
 //    Vector3D n2 = p2.crossProduct(p1);
 //    qDebug() << n.getX() << n.getY() << n.getZ() << n2.getX() << n2.getY() << n2.getZ();
-//    glNormal3d(n.getX(), n.getY(), n.getZ());
+    glNormal3d(n.getX(), n.getY(), n.getZ());
     for (int i = 0; i < points.size(); ++i) {
         drawVertex(points[i]);
     }
